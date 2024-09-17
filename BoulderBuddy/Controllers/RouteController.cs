@@ -24,18 +24,18 @@ namespace BoulderBuddy.Controllers
                 Routes resultRoute = matchingRoutes.First();
 
                 //Load route comments
-                List<CommentData> routeComments = (from comment in _db.RouteComments
+                List<CommentsViewModel> routeComments = (from comment in _db.RouteComments
                                                    join user in _db.Users on comment.UserId equals user.ID
                                                    where comment.RouteId == resultRoute.Id
-                                                   select new CommentData(user, comment)).ToList();
+                                                   select new CommentsViewModel(user, comment)).ToList();
 
                 //Load route ascents
-                List<AscentData> routeAscents = (from ascent in _db.Ascents
+                List<AscentsViewModel> routeAscents = (from ascent in _db.Ascents
                                                  join user in _db.Users on ascent.UserId equals user.ID
                                                  where ascent.RouteId == resultRoute.Id
-                                                 select new AscentData(user, ascent)).ToList();
+                                                 select new AscentsViewModel(user, ascent)).ToList();
 
-                return View(new Models.DB.BoulderRouteData(resultRoute, routeComments, routeAscents));
+                return View(new Models.DB.RouteViewModel(resultRoute, routeComments, routeAscents));
             }
             {
                 throw new NotImplementedException("Route not found");
@@ -43,8 +43,17 @@ namespace BoulderBuddy.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostComment(string commentText)
+        public IActionResult PostComment(Routes route)
         {
+
+            RouteComments newComment = new RouteComments();
+            newComment.Comment = Request.Form["commentTextArea"].ToString();
+            newComment.CommentDateTime = DateTime.Now;
+            newComment.RouteId = route.Id;
+            newComment.UserId = 1;
+
+            _db.RouteComments.Add(newComment);
+            _db.SaveChanges();
             return View();
         }
     }

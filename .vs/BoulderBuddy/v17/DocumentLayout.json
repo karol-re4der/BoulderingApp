@@ -1,0 +1,69 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|c:\\users\\re4der\\source\\repos\\boulderbuddy\\boulderbuddy\\controllers\\routecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|solutionrelative:boulderbuddy\\controllers\\routecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|c:\\users\\re4der\\source\\repos\\boulderbuddy\\boulderbuddy\\views\\route\\show.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|solutionrelative:boulderbuddy\\views\\route\\show.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|c:\\users\\re4der\\source\\repos\\boulderbuddy\\boulderbuddy\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|solutionrelative:boulderbuddy\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Views\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "BoulderBuddy\\Views\\_ViewImports.cshtml",
+              "ToolTip": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Views\\_ViewImports.cshtml",
+              "RelativeToolTip": "BoulderBuddy\\Views\\_ViewImports.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-14T12:38:08.506Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Show.cshtml",
+              "DocumentMoniker": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Views\\Route\\Show.cshtml",
+              "RelativeDocumentMoniker": "BoulderBuddy\\Views\\Route\\Show.cshtml",
+              "ToolTip": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Views\\Route\\Show.cshtml",
+              "RelativeToolTip": "BoulderBuddy\\Views\\Route\\Show.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-14T11:38:59.673Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RouteController.cs",
+              "DocumentMoniker": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Controllers\\RouteController.cs",
+              "RelativeDocumentMoniker": "BoulderBuddy\\Controllers\\RouteController.cs",
+              "ToolTip": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Controllers\\RouteController.cs",
+              "RelativeToolTip": "BoulderBuddy\\Controllers\\RouteController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACoAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-13T20:21:51.257Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

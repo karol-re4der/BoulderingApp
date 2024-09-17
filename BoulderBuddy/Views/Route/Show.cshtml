@@ -1,0 +1,59 @@
+﻿@model BoulderRouteData
+
+<div style="width:50%; float:left;">
+    <div>
+	    <p>Id: @Model.Route.Id</p>
+        <p>Description: @Model.Route.Description</p>
+        <p>Grade: @Model.Route.GradeId</p>
+
+    </div>
+
+    <div class="accordion" id="routeComments">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button bg-primary text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <i class="bi bi-chat-square-dots-fill"></i>&nbsp Comments
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+
+                    <form method="post">
+                        <div>
+                            <textArea class="form-control" id="exampleTextarea" rows="3" placeholder="..."></textArea>
+                        </div>
+                        <button asp-action="PostComment" class="btn btn-primary" type="submit" id="button-addon2">Comment</button>
+                        <button class="btn btn-primary" type="reset" id="button-addon2">Cancel</button>
+                    </form>
+
+                    <br />
+                    @foreach(CommentData comment in Model.RouteComments.OrderBy(x => x.Comment.CommentDateTime))
+                    {
+                        <i class="bi bi-person-fill">@comment.User.Name</i>
+                        <br />
+                        <i class="bi bi-clock-fill"> @comment.Comment.CommentDateTime</i>
+                        <br />
+
+                        <b>@comment.Comment.Comment </b>
+                        <br />
+                        <br />
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed  bg-primary text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    <i class="bi bi-patch-check-fill"></i> &nbsp Ascents
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="width:50%;float:right;">
+</div>

@@ -1,4 +1,4 @@
-﻿namespace BoulderBuddy.Models.DB
+﻿namespace BoulderBuddy.Models.ViewModels
 {
     public class RouteViewModel(Routes route, List<CommentsViewModel> comments, List<AscentsViewModel> ascents)
     {

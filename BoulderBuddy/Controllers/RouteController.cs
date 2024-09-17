@@ -1,6 +1,6 @@
 ﻿using BoulderBuddy.Data;
 using BoulderBuddy.Models;
-using BoulderBuddy.Models.DB;
+using BoulderBuddy.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -23,6 +23,7 @@ namespace BoulderBuddy.Controllers
             {
                 Routes resultRoute = matchingRoutes.First();
 
+
                 //Load route comments
                 List<CommentsViewModel> routeComments = (from comment in _db.RouteComments
                                                    join user in _db.Users on comment.UserId equals user.ID
@@ -35,7 +36,7 @@ namespace BoulderBuddy.Controllers
                                                  where ascent.RouteId == resultRoute.Id
                                                  select new AscentsViewModel(user, ascent)).ToList();
 
-                return View(new Models.DB.RouteViewModel(resultRoute, routeComments, routeAscents));
+                return View(new RouteViewModel(resultRoute, routeComments, routeAscents));
             }
             {
                 throw new NotImplementedException("Route not found");

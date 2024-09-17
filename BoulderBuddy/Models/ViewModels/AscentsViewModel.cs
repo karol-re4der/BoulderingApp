@@ -1,4 +1,4 @@
-﻿namespace BoulderBuddy.Models.DB
+﻿namespace BoulderBuddy.Models.ViewModels
 {
     public class AscentsViewModel(Users user, Ascents ascent)
     {

@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|c:\\users\\re4der\\source\\repos\\boulderbuddy\\boulderbuddy\\controllers\\commentsectioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|solutionrelative:boulderbuddy\\controllers\\commentsectioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|c:\\users\\re4der\\source\\repos\\boulderbuddy\\boulderbuddy\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|solutionrelative:boulderbuddy\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|c:\\users\\re4der\\source\\repos\\boulderbuddy\\boulderbuddy\\views\\shared\\_commentsection.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|solutionrelative:boulderbuddy\\views\\shared\\_commentsection.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|c:\\users\\re4der\\source\\repos\\boulderbuddy\\boulderbuddy\\views\\route\\show.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|solutionrelative:boulderbuddy\\views\\route\\show.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|c:\\users\\re4der\\source\\repos\\boulderbuddy\\boulderbuddy\\views\\home\\browse.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|solutionrelative:boulderbuddy\\views\\home\\browse.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|c:\\users\\re4der\\source\\repos\\boulderbuddy\\boulderbuddy\\controllers\\routecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|solutionrelative:boulderbuddy\\controllers\\routecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|c:\\users\\re4der\\source\\repos\\boulderbuddy\\boulderbuddy\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5684F0AA-3BA2-4865-93B0-55C95F66F846}|BoulderBuddy\\BoulderBuddy.csproj|solutionrelative:boulderbuddy\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,53 +31,53 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "CommentSectionController.cs",
-              "DocumentMoniker": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Controllers\\CommentSectionController.cs",
-              "RelativeDocumentMoniker": "BoulderBuddy\\Controllers\\CommentSectionController.cs",
-              "ToolTip": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Controllers\\CommentSectionController.cs",
-              "RelativeToolTip": "BoulderBuddy\\Controllers\\CommentSectionController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAgAAAAAAAAAA==",
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "BoulderBuddy\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "BoulderBuddy\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-17T10:43:13.489Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "_CommentSection.cshtml",
-              "DocumentMoniker": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Views\\Shared\\_CommentSection.cshtml",
-              "RelativeDocumentMoniker": "BoulderBuddy\\Views\\Shared\\_CommentSection.cshtml",
-              "ToolTip": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Views\\Shared\\_CommentSection.cshtml",
-              "RelativeToolTip": "BoulderBuddy\\Views\\Shared\\_CommentSection.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-17T10:38:26.153Z",
+              "WhenOpened": "2024-09-17T14:05:43.437Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Show.cshtml",
-              "DocumentMoniker": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Views\\Route\\Show.cshtml",
-              "RelativeDocumentMoniker": "BoulderBuddy\\Views\\Route\\Show.cshtml",
-              "ToolTip": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Views\\Route\\Show.cshtml",
-              "RelativeToolTip": "BoulderBuddy\\Views\\Route\\Show.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-14T11:38:59.673Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "RouteController.cs",
               "DocumentMoniker": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Controllers\\RouteController.cs",
               "RelativeDocumentMoniker": "BoulderBuddy\\Controllers\\RouteController.cs",
               "ToolTip": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Controllers\\RouteController.cs",
               "RelativeToolTip": "BoulderBuddy\\Controllers\\RouteController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAC8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-13T20:21:51.257Z",
+              "WhenOpened": "2024-09-17T13:25:59.502Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Browse.cshtml",
+              "DocumentMoniker": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Views\\Home\\Browse.cshtml",
+              "RelativeDocumentMoniker": "BoulderBuddy\\Views\\Home\\Browse.cshtml",
+              "ToolTip": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Views\\Home\\Browse.cshtml",
+              "RelativeToolTip": "BoulderBuddy\\Views\\Home\\Browse.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-17T13:15:08.213Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "BoulderBuddy\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\re4der\\source\\repos\\BoulderBuddy\\BoulderBuddy\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "BoulderBuddy\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAB7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-17T13:15:05.663Z",
               "EditorCaption": ""
             }
           ]

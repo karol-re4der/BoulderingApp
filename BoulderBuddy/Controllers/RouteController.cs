@@ -26,13 +26,13 @@ namespace BoulderBuddy.Controllers
 
                 //Load route comments
                 List<CommentsViewModel> routeComments = (from comment in _db.RouteComments
-                                                   join user in _db.Users on comment.UserId equals user.ID
+                                                   join user in _db.UserData on comment.UserId equals user.Id
                                                    where comment.RouteId == resultRoute.Id
                                                    select new CommentsViewModel(user, comment)).ToList();
 
                 //Load route ascents
                 List<AscentsViewModel> routeAscents = (from ascent in _db.Ascents
-                                                 join user in _db.Users on ascent.UserId equals user.ID
+                                                 join user in _db.UserData on ascent.UserId equals user.Id
                                                  where ascent.RouteId == resultRoute.Id
                                                  select new AscentsViewModel(user, ascent)).ToList();
 

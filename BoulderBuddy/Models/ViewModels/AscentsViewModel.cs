@@ -1,8 +1,8 @@
 ﻿namespace BoulderBuddy.Models.ViewModels
 {
-    public class AscentsViewModel(Users user, Ascents ascent)
+    public class AscentsViewModel(UserData userData, Ascents ascent)
     {
         public Ascents Ascent { get; set; } = ascent;
-        public Users User { get; set; } = user;
+        public UserData User { get; set; } = userData;
     }
 }

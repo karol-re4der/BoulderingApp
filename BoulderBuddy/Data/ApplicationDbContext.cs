@@ -1,16 +1,17 @@
 ﻿using BoulderBuddy.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BoulderBuddy.Data
 {
-    public class ApplicationDbContext: DbContext
+    public class ApplicationDbContext: IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
         }
 
-        public DbSet<Users> Users { get; set; }
+        public DbSet<UserData> UserData { get; set; }
         public DbSet<Gyms> Gyms { get; set; }
         public DbSet<Grades> Grades { get; set; }
         public DbSet<GradingSystems> GradingSystems { get; set; }

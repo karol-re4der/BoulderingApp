@@ -12,7 +12,7 @@
     <br />
     @foreach (CommentsViewModel comment in Model.RouteComments.OrderByDescending(x => x.Comment.CommentDateTime))
     {
-        <i class="bi bi-person-fill">@comment.User.Name</i>
+        <i class="bi bi-person-fill">@comment.UserData.Id</i>
         <br />
         <i class="bi bi-clock-fill"> @comment.Comment.CommentDateTime</i>
         <br />

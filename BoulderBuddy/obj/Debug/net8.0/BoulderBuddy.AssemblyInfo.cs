@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BoulderBuddy")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+054a1b355dc905a5c24660d78e6ebc758b5478d8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3d55cf72fababcc8065c3fc09dbe8bd1a52172e2")]
 [assembly: System.Reflection.AssemblyProductAttribute("BoulderBuddy")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BoulderBuddy")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

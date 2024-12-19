@@ -1,68 +1,95 @@
 ﻿@model RouteViewModel
 
-<div class="card mb-3">
-    <h3 class="card-header">Boulder preview</h3>
-    <div class="card-body">
-        <h5 class="card-title">Mood boulder</h5>
-        <h6 class="card-subtitle text-muted">Red slab</h6>
+@* @{
+    int cbCommentsPerPage = 10;
+    int cbPagesLoaded = 1;
+    int cbMaxComments = 20;
+} *@
+
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-3 rounded-3 shadow">
+            <h3 class="card-header">Boulder preview</h3>
+            <div class="card-body">
+                <h5 class="card-title">@Model.Route.Id</h5>
+                <h6 class="card-subtitle text-muted">@Model.Route.Description</h6>
+            </div>
+            <img src="@Model.Route.Image" class="d-block user-select-none" aria-label="Placeholder: Image cap" focusable="false" role="img" style="object-fit: cover;">
+            <div class="card-body">
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+        </div>
     </div>
-    <svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">
-        <rect width="100%" height="100%" fill="#868e96"></rect>
-        <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
-    </svg>
-    <div class="card-body">
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+
+    <div class="col-md-8">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" data-bs-toggle="tab" href="#summary" aria-selected="true" role="tab">Summary</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" data-bs-toggle="tab" href="#comments" aria-selected="false" tabindex="-1" role="tab">Comments</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" data-bs-toggle="tab" href="#ascents" aria-selected="false" tabindex="-1" role="tab">Ascents</a>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            @* summary tab *@
+            <div class="tab-pane fade show active rounded-3 shadow p-2" id="summary" role="tabpanel">
+                <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+            </div>
+
+            @* comment tab *@
+            <div class="tab-pane fade" id="comments" role="tabpanel">
+                <div style="row" class="rounded-3 shadow p-2">
+                    <form asp-action="PostComment" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#CommentBox" data-ajax-complete="ResetBox()">
+                        <div class="row m-2 p-1 border-bottom border-start">
+                            <div class="col-md commentbox">
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <textArea style="background-color:transparent;" class="form-control" id="commentTextArea" name="commentTextArea" rows="3" placeholder=""></textArea>
+                                }
+                                else
+                                {
+                                    <textArea disabled style="background-color:transparent;" class="form-control" id="commentTextArea" name="commentTextArea" rows="3" placeholder="Please sign in to post your comment"></textArea>
+                                }
+                            </div>
+                            <div class="col-md-2 align-self-end">
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <button class="btn btn-light" type="submit" id="button-addon2">Comment</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-light disabled" type="submit" id="button-addon2">Comment</button>
+                                }
+                            </div>
+                        </div>
+                    </form>
+                    <div id="CommentBox">
+                        <partial name="_CommentBox" model="@Model.RouteComments">
+                        @* @if (cbPagesLoaded * cbCommentsPerPage < cbMaxComments)
+                        {
+                            <button type="submit" class="btn btn-light align-self-center" asp-action="LoadComments" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#CommentBox">Load more</button>
+                        } *@
+                    </div>
+                </div>
+            </div>
+
+            @* ascents tab *@
+            <div class="tab-pane fade rounded-3 shadow p-2" id="ascents">
+                <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork.</p>
+            </div>
+        </div>
     </div>
 </div>
 
-@* <div>
-    <div class="accordion" id="RouteDataAccordion">
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button collapsed  bg-primary text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    <i class="bi bi-patch-check-fill"></i> &nbsp Ascents
-                </button>
-            </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                        <img src="@Model.Route.Image" width="135" height="192" style="float:left" />
-                        Id: @Model.Route.Id <br />
-                        Description: @Model.Route.Description <br />
-                        Grade: @Model.Route.GradeId
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo">
-                <button class="accordion-button bg-primary text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <i class="bi bi-chat-square-dots-fill"></i>&nbsp Comments
-                </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-
-                    <partial name="_CommentSection" />
-
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingThree">
-                <button class="accordion-button collapsed  bg-primary text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    <i class="bi bi-patch-check-fill"></i> &nbsp Ascents
-                </button>
-            </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                </div>
-            </div>
-        </div>
-    </div>
-</div> *@
-
 @section Scripts {
+    <script src="/js/commentbox.js"></script>
     <partial name="_ValidationScriptsPartial" />
 }

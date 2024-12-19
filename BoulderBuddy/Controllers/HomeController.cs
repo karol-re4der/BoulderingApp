@@ -1,10 +1,12 @@
 using BoulderBuddy.Data;
 using BoulderBuddy.Models;
 using BoulderBuddy.Models.ViewModels;
+using BoulderBuddy.Utility;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Diagnostics;
+using static BoulderBuddy.Utility.ImageUtility;
 
 namespace BoulderBuddy.Controllers
 {
@@ -33,11 +35,7 @@ namespace BoulderBuddy.Controllers
                                                where gym.Name.Equals(testGym)
                                                select route).ToList<Routes>();
 
-            //Check if route image exists - if not, insert placeholder instead
-            string placeholderPath = @"\res\route_previews\placeholder.jpg";
-            string previewsPath = @"\res\route_previews\";
-
-            availableRoutes.ForEach(x => x.Image = ( !System.IO.File.Exists(Path.Combine(_webHostEnviroment.WebRootPath, previewsPath.Substring(1) + x.Image)) ? placeholderPath : previewsPath+x.Image));
+            availableRoutes.ForEach(x => x.Image = ImageUtility.GetImagePath(_webHostEnviroment, x.Image, ImageType.Preview));
 
             BrowseViewModel result = new BrowseViewModel(availableRoutes);
 

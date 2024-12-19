@@ -9,6 +9,8 @@ namespace BoulderBuddy.Models
         public int Id { get; set; }
 
         [ForeignKey("AspNetUsers")]
-        public int AspNetUserId { get; set; }
+        public string AspNetUserId { get; set; } = "";
+
+        public string DisplayName { get; set; } = "";
     }
 }

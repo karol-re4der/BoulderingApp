@@ -13,7 +13,7 @@ namespace BoulderBuddy.Models
 
         [ForeignKey("Routes")]
         public int RouteId { get; set; }
-        [ForeignKey("Users")]
-        public int UserId { get; set; }
+        [ForeignKey("UserData")]
+        public int UserDataId { get; set; }
     }
 }

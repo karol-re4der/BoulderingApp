@@ -1,0 +1,19 @@
+﻿@model List<CommentsViewModel>
+
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@foreach (CommentsViewModel comment in Model.OrderByDescending(x => x.Comment.CommentDateTime))
+{
+    <div class="commentbox m-2 p-1 border-bottom border-start">
+        <i class="bi bi-person-fill">@comment.UserData.DisplayName</i>
+        <br />
+        <i class="bi bi-clock-fill"> @comment.Comment.CommentDateTime</i>
+        <br />
+        <br />
+
+        <b>@comment.Comment.Comment </b>
+    </div>
+}

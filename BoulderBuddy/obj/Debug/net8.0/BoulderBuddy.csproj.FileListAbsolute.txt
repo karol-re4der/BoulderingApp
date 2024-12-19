@@ -290,3 +290,4 @@ C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy\obj\Debug\net8.0\refint\B
 C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy\obj\Debug\net8.0\BoulderBuddy.pdb
 C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy\obj\Debug\net8.0\BoulderBuddy.genruntimeconfig.cache
 C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy\obj\Debug\net8.0\ref\BoulderBuddy.dll
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy\bin\Debug\net8.0\libman.json

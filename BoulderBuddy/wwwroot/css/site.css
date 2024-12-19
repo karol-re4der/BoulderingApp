@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.commentbox {
+    padding-left: 0px;
+    padding-right: 0px;
+}

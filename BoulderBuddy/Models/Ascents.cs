@@ -9,6 +9,8 @@ namespace BoulderBuddy.Models
         [Key]
         public int Id { get; set; }
         public DateTime AscentDateTime { get; set; }
+        public bool Success { get; set; }
+
 
         [ForeignKey("Users")]
         public int UserId { get; set; }

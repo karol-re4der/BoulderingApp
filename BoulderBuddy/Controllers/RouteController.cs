@@ -42,14 +42,56 @@ namespace BoulderBuddy.Controllers
                 List<CommentsViewModel> routeComments = loadComments(id, 0, 10);
 
                 //Load route ascents
+                int ascentsTotal = 0;
+                int ascentsSuccessful = 0;
+                int progressBarAscents = 0;
+                int progressBarAttempts = 0;
+                float averageAscents = 0f;
+
                 List<AscentsViewModel> routeAscents = (from ascent in _db.Ascents
                                                        join user in _db.UserData on ascent.UserId equals user.Id
                                                        where ascent.RouteId == resultRoute.Id
                                                        select new AscentsViewModel(user, ascent)).ToList();
 
-                //TempData["LoadedComments"] = routeComments;
+                if (routeAscents.Count>0)
+                {
+                    averageAscents = (float) routeAscents.Count() / (DateTime.Now - resultRoute.AddDateTime).Days;
+                }
+                ascentsTotal = routeAscents.Count();
+                ascentsSuccessful = routeAscents.Where(x => x.Ascent.Success).Count();
+                progressBarAscents = (int)(((float)ascentsSuccessful / ascentsTotal) * 100);
+                progressBarAttempts = 100 - progressBarAscents;
 
-                return View(new RouteViewModel(resultRoute, routeComments, routeAscents));
+
+                //Calculate grade rating
+                int progressBarEasy = 0;
+                int progressBarHard = 0;
+                int progressBarOk = 0;
+
+
+                List<GradeRatings> gradeRatings = (from gradeRating in _db.GradeRatings
+                                                   join user in _db.UserData on gradeRating.UserDataId equals user.Id
+                                                   where gradeRating.RouteId == resultRoute.Id
+                                                   select gradeRating).ToList();
+
+                if (gradeRatings.Count() > 0)
+                {
+                    progressBarEasy = (int)(((float) gradeRatings.Where(x => x.Rating > 0).Count() / gradeRatings.Count() ) * 100);
+                    progressBarHard = (int)(((float)gradeRatings.Where(x => x.Rating < 0).Count() / gradeRatings.Count()) * 100);
+                    progressBarOk = (int)(((float)gradeRatings.Where(x => x.Rating == 0).Count() / gradeRatings.Count()) * 100);
+                }
+
+                RouteViewModel newModel = new RouteViewModel(resultRoute, routeComments, routeAscents, gradeRatings, averageAscents);
+                newModel.Progress_Grading_Easy = progressBarEasy;
+                newModel.Progress_Grading_Fair = progressBarHard;
+                newModel.Progress_Grading_Hard = progressBarOk;
+                newModel.Progress_Ascents_Success = progressBarAscents;
+                newModel.Progress_Ascents_Attempt = progressBarAttempts;
+                newModel.AscentsSuccessful = ascentsSuccessful;
+                newModel.AscentsTotal = ascentsTotal;
+
+
+                return View(newModel);
             }
             {
                 throw new NotImplementedException("Route not found");

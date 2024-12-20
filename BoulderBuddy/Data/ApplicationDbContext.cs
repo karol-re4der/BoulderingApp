@@ -18,5 +18,6 @@ namespace BoulderBuddy.Data
         public DbSet<Routes> Routes { get; set; }
         public DbSet<Ascents> Ascents { get; set; }
         public DbSet<RouteComments> RouteComments { get; set; }
+        public DbSet<GradeRatings> GradeRatings { get; set; }
     }
 }

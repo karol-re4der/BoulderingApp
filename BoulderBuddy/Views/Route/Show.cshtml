@@ -41,7 +41,91 @@
         <div id="myTabContent" class="tab-content">
             @* summary tab *@
             <div class="tab-pane fade show active rounded-3 shadow p-2" id="summary" role="tabpanel">
-                <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                
+                @* Ascents *@
+                <div class="rounded-3 border p-2">
+                    <h2>Ascents</h2>
+                    @if (Model.AscentData.Count() > 0)
+                    {
+                        @if (Model.AscentData.First() != Model.AscentData.Last())
+                        {
+                            <p>First ascent on @Model.AscentData.Last().Ascent.AscentDateTime by @Model.AscentData.Last().Ascent.UserId</p>
+                        }
+                        <p>Last ascent on @Model.AscentData.First().Ascent.AscentDateTime by @Model.AscentData.First().Ascent.UserId</p>
+                        <p>@Model.AscentsSuccessful ascents successfull out of @Model.AscentsTotal attempts total</p>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: @Model.Progress_Ascents_Success%;" aria-valuenow="@Model.Progress_Ascents_Success" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-light" role="progressbar" style="width: @Model.Progress_Ascents_Attempt%;" aria-valuenow="@Model.Progress_Ascents_Attempt" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="row">
+                            <div class="btn-group align-self-center" role="group" aria-label="Basic radio toggle button group">
+                                <input type="radio" class="btn-check" name="radio_ascent" id="radio_ascent_success" autocomplete="off" checked="">
+                                <label class="btn btn-outline-primary" for="radio_ascent_success">Ascended</label>
+                                <input type="radio" class="btn-check" name="radio_ascent" id="radio_ascent_attempt" autocomplete="off" checked="">
+                                <label class="btn btn-outline-primary" for="radio_ascent_attempt">Attempted</label>
+                                <input type="radio" class="btn-check" name="radio_ascent" id="radio_ascent_blank" autocomplete="off" checked="">
+                                <label class="btn btn-outline-primary" for="radio_ascent_blank">Not attempted</label>
+                            </div>
+                        </div>
+
+                        <p>@Model.AscentsAverage ascents per day</p>
+
+                    }
+                    else
+                    {
+                        <p>No ascents logged so far. Be first to log an ascent!</p>
+                    }
+                </div>
+
+                @* Grade ratings *@
+                <br />
+                <div class="rounded-3 border p-2">
+                    <h2>Grade rating</h2>
+                    @if (Model.Progress_Grading_Easy > (Model.Progress_Grading_Fair + Model.Progress_Grading_Hard))
+                    {
+                        <p>Rated easy for its grade by @Model.Progress_Grading_Easy% of voters</p>
+                    }
+                    else if (Model.Progress_Grading_Fair > (Model.Progress_Grading_Easy + Model.Progress_Grading_Hard))
+                    {
+                        <p>Rated easy for its grade by @Model.Progress_Grading_Easy% of voters</p>
+                    }
+                    else
+                    {
+                        <p>Graded accurately</p>
+                    }
+                    <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: @Model.Progress_Grading_Easy%;" aria-valuenow="@Model.Progress_Grading_Easy" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-light" role="progressbar" style="width: @Model.Progress_Grading_Hard%;" aria-valuenow="@Model.Progress_Grading_Hard" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: @Model.Progress_Grading_Fair%;" aria-valuenow="@Model.Progress_Grading_Fair" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="row">
+                        <div class="btn-group align-self-center" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="radio_grade" id="radio_grade_easy" autocomplete="off" checked="">
+                            <label class="btn btn-outline-primary" for="radio_grade_easy">Easier</label>
+                            <input type="radio" class="btn-check" name="radio_grade" id="radio_grade_fair" autocomplete="off" checked="">
+                            <label class="btn btn-outline-primary" for="radio_grade_fair">Fair</label>
+                            <input type="radio" class="btn-check" name="radio_grade" id="radio_grade_hard" autocomplete="off" checked="">
+                            <label class="btn btn-outline-primary" for="radio_grade_hard">Harder</label>
+                        </div>
+                    </div>
+                </div>
+
+                @* Badges *@
+                <br />
+                <div class="rounded-3 border p-2">
+                    <h2>Style</h2>
+                    <div>
+                        <span class="badge rounded-pill bg-info">Slab</span>
+                        <span class="badge rounded-pill bg-success">Powerful</span>
+                        <span class="badge rounded-pill bg-info">Balance</span>
+                        <span class="badge rounded-pill bg-light">Project</span>
+                        <span class="badge rounded-pill bg-warning">Fun</span>
+                        <span class="badge rounded-pill bg-danger">Tricky</span>
+                        <span class="badge rounded-pill bg-light">Dyno</span>
+                        <span class="badge rounded-pill bg-light">Crux</span>
+                        <span class="badge rounded-pill bg-light">Jumpstart</span>
+                    </div>
+                </div>
             </div>
 
             @* comment tab *@

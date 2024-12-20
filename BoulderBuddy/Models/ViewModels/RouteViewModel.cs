@@ -12,7 +12,11 @@
         public int AscentsSuccessful = 0;
         public int AscentsTotal = 0;
 
-
+        #region Radios
+        public string Radio_Ascents_Status_Success = "";
+        public string Radio_Ascents_Status_Attempt = "";
+        public string Radio_Ascents_Status_Blank = "";
+        #endregion
 
         #region Progress Bar
         public int Progress_Grading_Easy = 0;

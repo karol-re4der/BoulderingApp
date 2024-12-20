@@ -34,6 +34,8 @@ namespace BoulderBuddy.Controllers
             if (!matchingRoutes.IsNullOrEmpty())
             {
                 Routes resultRoute = matchingRoutes.First();
+                IdentityUser identityUser = _userManager.GetUserAsync(User).Result!;
+                int userId = UserUtility.GetUserByNetId(_db, identityUser.Id).Id;
 
                 //translate image path
                 resultRoute.Image = ImageUtility.GetImagePath(_env, resultRoute.Image, ImageType.Preview);
@@ -62,12 +64,10 @@ namespace BoulderBuddy.Controllers
                 progressBarAscents = (int)(((float)ascentsSuccessful / ascentsTotal) * 100);
                 progressBarAttempts = 100 - progressBarAscents;
 
-
                 //Calculate grade rating
                 int progressBarEasy = 0;
                 int progressBarHard = 0;
                 int progressBarOk = 0;
-
 
                 List<GradeRatings> gradeRatings = (from gradeRating in _db.GradeRatings
                                                    join user in _db.UserData on gradeRating.UserDataId equals user.Id
@@ -90,6 +90,11 @@ namespace BoulderBuddy.Controllers
                 newModel.AscentsSuccessful = ascentsSuccessful;
                 newModel.AscentsTotal = ascentsTotal;
 
+                //
+                Ascents userAscent = _db.Ascents.Where(x => x.UserId == userId).FirstOrDefault();
+                newModel.Radio_Ascents_Status_Success = userAscent?.Success == true?"checked":"";
+                newModel.Radio_Ascents_Status_Attempt = userAscent?.Success == false ? "checked" : ""; ;
+                newModel.Radio_Ascents_Status_Blank = userAscent == null ? "checked" : ""; ;
 
                 return View(newModel);
             }
@@ -97,6 +102,69 @@ namespace BoulderBuddy.Controllers
                 throw new NotImplementedException("Route not found");
             }
         }
+
+        #region radios
+        [HttpPost]
+        public IActionResult MarkAscent(int id, string value)
+        {
+            int action = 0; //0 - clear, 1 - ascent, other - not attempted
+
+            if (value.EndsWith("success"))
+            {
+                action = 1;
+            }
+            else if(value.EndsWith("attempt"))
+            {
+                action = 2;
+            }
+
+            if (_signInManager.IsSignedIn(User))
+            {
+                try
+                {
+                    IdentityUser identityUser = _userManager.GetUserAsync(User).Result!;
+                    UserData user = UserUtility.GetUserByNetId(_db, identityUser.Id);
+
+                    Ascents ascent = _db.Ascents.Where(x => x.UserId == user.Id && x.RouteId == id).FirstOrDefault();
+                    if (ascent == null && action!=0)
+                    {
+                        ascent = new Ascents()
+                        {
+                            RouteId = id,
+                            UserId = user.Id
+                        };
+                    }
+
+                    if (action != 0)
+                    {
+                        ascent.Success = action==1 ? true : false;
+                        _db.Ascents.Update(ascent);
+                        _db.SaveChanges();
+                    }
+                    else if(action==0 && ascent!=null)
+                    {
+                        _db.Ascents.Remove(ascent);
+                        _db.SaveChanges();
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new Exception();
+                }
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult MarkGrading(int id, string value)
+        {
+            if (_signInManager.IsSignedIn(User))
+            {
+
+            }
+            return View();
+        }
+        #endregion
 
         #region CommentBox
         [HttpGet]

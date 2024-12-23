@@ -4,10 +4,12 @@ using BoulderBuddy.Models.ViewModels;
 using BoulderBuddy.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
 using System.Linq;
 using static BoulderBuddy.Utility.ImageUtility;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BoulderBuddy.Controllers
 {
@@ -26,16 +28,54 @@ namespace BoulderBuddy.Controllers
             _userManager = userManager;
         }
 
+        #region helpers
+        private Routes getRouteById(int id)
+        {
+            List<Routes> matchingRoutes = _db.Routes.Where(x => x.Id == id).ToList();
+
+            if (matchingRoutes.Count == 1)
+            {
+                return matchingRoutes.First();
+            }
+            return null;
+        }
+
+        private AscentsSectionViewModel loadAscentsSectionViewModel(Routes route, UserData userData)
+        {
+            AscentsSectionViewModel result = new AscentsSectionViewModel();
+
+            List<AscentsViewModel> routeAscents = (from ascent in _db.Ascents
+                                                   join user in _db.UserData on ascent.UserId equals user.Id
+                                                   where ascent.RouteId == route.Id
+                                                   select new AscentsViewModel(user, ascent)).ToList();
+
+            if (routeAscents.Count > 0)
+            {
+                result.AscentsAverage = (float)routeAscents.Count() / (DateTime.Now - route.AddDateTime).Days;
+            }
+            result.AscentsTotal = routeAscents.Count();
+            result.AscentsSuccessful = routeAscents.Where(x => x.Ascent.Success).Count();
+            result.Progress_Ascents_Success = (int)(((float)result.AscentsSuccessful / result.AscentsTotal) * 100);
+            result.Progress_Ascents_Attempt = 100 - result.Progress_Ascents_Success;
+            result.AscentData = routeAscents;
+
+            Ascents userAscent = _db.Ascents.Where(x => x.UserId == userData.Id).FirstOrDefault();
+            result.Radio_Ascents_Status_Success = userAscent?.Success == true ? "checked" : "";
+            result.Radio_Ascents_Status_Attempt = userAscent?.Success == false ? "checked" : "";
+            result.Radio_Ascents_Status_Blank = userAscent == null ? "checked" : "";
+
+            return result;
+        }
+        #endregion
+
         [HttpGet]
         public IActionResult Show(int id)
         {
-            List<Routes> matchingRoutes = _db.Routes.Where(x => x.Id==id).ToList();
-
-            if (!matchingRoutes.IsNullOrEmpty())
+            Routes resultRoute = getRouteById(id);
+            if (resultRoute != null)
             {
-                Routes resultRoute = matchingRoutes.First();
                 IdentityUser identityUser = _userManager.GetUserAsync(User).Result!;
-                int userId = UserUtility.GetUserByNetId(_db, identityUser.Id).Id;
+                UserData userData = UserUtility.GetUserByNetId(_db, identityUser.Id);
 
                 //translate image path
                 resultRoute.Image = ImageUtility.GetImagePath(_env, resultRoute.Image, ImageType.Preview);
@@ -44,25 +84,7 @@ namespace BoulderBuddy.Controllers
                 List<CommentsViewModel> routeComments = loadComments(id, 0, 10);
 
                 //Load route ascents
-                int ascentsTotal = 0;
-                int ascentsSuccessful = 0;
-                int progressBarAscents = 0;
-                int progressBarAttempts = 0;
-                float averageAscents = 0f;
-
-                List<AscentsViewModel> routeAscents = (from ascent in _db.Ascents
-                                                       join user in _db.UserData on ascent.UserId equals user.Id
-                                                       where ascent.RouteId == resultRoute.Id
-                                                       select new AscentsViewModel(user, ascent)).ToList();
-
-                if (routeAscents.Count>0)
-                {
-                    averageAscents = (float) routeAscents.Count() / (DateTime.Now - resultRoute.AddDateTime).Days;
-                }
-                ascentsTotal = routeAscents.Count();
-                ascentsSuccessful = routeAscents.Where(x => x.Ascent.Success).Count();
-                progressBarAscents = (int)(((float)ascentsSuccessful / ascentsTotal) * 100);
-                progressBarAttempts = 100 - progressBarAscents;
+                AscentsSectionViewModel ascentsSection = loadAscentsSectionViewModel(resultRoute, userData);
 
                 //Calculate grade rating
                 int progressBarEasy = 0;
@@ -81,20 +103,11 @@ namespace BoulderBuddy.Controllers
                     progressBarOk = (int)(((float)gradeRatings.Where(x => x.Rating == 0).Count() / gradeRatings.Count()) * 100);
                 }
 
-                RouteViewModel newModel = new RouteViewModel(resultRoute, routeComments, routeAscents, gradeRatings, averageAscents);
+                RouteViewModel newModel = new RouteViewModel(resultRoute, routeComments, gradeRatings);
                 newModel.Progress_Grading_Easy = progressBarEasy;
                 newModel.Progress_Grading_Fair = progressBarHard;
                 newModel.Progress_Grading_Hard = progressBarOk;
-                newModel.Progress_Ascents_Success = progressBarAscents;
-                newModel.Progress_Ascents_Attempt = progressBarAttempts;
-                newModel.AscentsSuccessful = ascentsSuccessful;
-                newModel.AscentsTotal = ascentsTotal;
-
-                //
-                Ascents userAscent = _db.Ascents.Where(x => x.UserId == userId).FirstOrDefault();
-                newModel.Radio_Ascents_Status_Success = userAscent?.Success == true?"checked":"";
-                newModel.Radio_Ascents_Status_Attempt = userAscent?.Success == false ? "checked" : ""; ;
-                newModel.Radio_Ascents_Status_Blank = userAscent == null ? "checked" : ""; ;
+                newModel.AscentsSectionViewModel = ascentsSection;
 
                 return View(newModel);
             }
@@ -105,54 +118,54 @@ namespace BoulderBuddy.Controllers
 
         #region radios
         [HttpPost]
-        public IActionResult MarkAscent(int id, string value)
+        public IActionResult MarkAscent(int id, string ascentResult)
         {
-            int action = 0; //0 - clear, 1 - ascent, other - not attempted
+            TempData["NotificationRequested"] = "true";
+            
 
-            if (value.EndsWith("success"))
-            {
-                action = 1;
-            }
-            else if(value.EndsWith("attempt"))
-            {
-                action = 2;
-            }
+            Routes resultRoute = getRouteById(id);
+            IdentityUser identityUser = _userManager.GetUserAsync(User).Result!;
+            UserData userData = UserUtility.GetUserByNetId(_db, identityUser.Id);
 
             if (_signInManager.IsSignedIn(User))
             {
                 try
                 {
-                    IdentityUser identityUser = _userManager.GetUserAsync(User).Result!;
-                    UserData user = UserUtility.GetUserByNetId(_db, identityUser.Id);
 
-                    Ascents ascent = _db.Ascents.Where(x => x.UserId == user.Id && x.RouteId == id).FirstOrDefault();
-                    if (ascent == null && action!=0)
+                    Ascents ascent = _db.Ascents.Where(x => x.UserId == userData.Id && x.RouteId == id).FirstOrDefault();
+                    if (ascent == null && !ascentResult.Equals("blank"))
                     {
                         ascent = new Ascents()
                         {
                             RouteId = id,
-                            UserId = user.Id
+                            UserId = userData.Id
                         };
                     }
 
-                    if (action != 0)
+                    if (!ascentResult.Equals("blank"))
                     {
-                        ascent.Success = action==1 ? true : false;
+                        ascent.Success = ascentResult.Equals("success") ? true : false;
                         _db.Ascents.Update(ascent);
                         _db.SaveChanges();
+                        TempData["SuccessMessage"] = ascentResult.Equals("success") ? "Route ascent logged!" : "Route attempt logged!";
+
                     }
-                    else if(action==0 && ascent!=null)
+                    else if (ascentResult.Equals("blank") && ascent != null)
                     {
                         _db.Ascents.Remove(ascent);
                         _db.SaveChanges();
+                        TempData["SuccessMessage"] = "Route attempt cleared!";
                     }
                 }
                 catch (Exception e)
                 {
-                    throw new Exception();
+                    TempData["ErrorMessage"] = "Something went wrong. Try again?";
                 }
             }
-            return View();
+
+            AscentsSectionViewModel resultViewModel = loadAscentsSectionViewModel(resultRoute, userData);
+
+            return PartialView("_Section_Ascents", resultViewModel);
         }
 
         [HttpPost]

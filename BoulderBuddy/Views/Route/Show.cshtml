@@ -43,42 +43,7 @@
             <div class="tab-pane fade show active rounded-3 shadow p-2" id="summary" role="tabpanel">
                 
                 @* Ascents *@
-                <div class="rounded-3 border p-2">
-                    <h2>Ascents</h2>
-                    @if (Model.AscentData.Count() > 0)
-                    {
-                        @if (Model.AscentData.First() != Model.AscentData.Last())
-                        {
-                            <p>First ascent on @Model.AscentData.Last().Ascent.AscentDateTime by @Model.AscentData.Last().Ascent.UserId</p>
-                        }
-                        <p>Last ascent on @Model.AscentData.First().Ascent.AscentDateTime by @Model.AscentData.First().Ascent.UserId</p>
-                        <p>@Model.AscentsSuccessful ascents successfull out of @Model.AscentsTotal attempts total</p>
-                        <div class="progress">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: @Model.Progress_Ascents_Success%;" aria-valuenow="@Model.Progress_Ascents_Success" aria-valuemin="0" aria-valuemax="100"></div>
-                            <div class="progress-bar bg-light" role="progressbar" style="width: @Model.Progress_Ascents_Attempt%;" aria-valuenow="@Model.Progress_Ascents_Attempt" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <div class="row">
-                            @{
-                                string radio_ascent_status = SignInManager.IsSignedIn(User) ? "" : "disabled";
-                            }
-                            <div class="btn-group align-self-center" role="group" aria-label="Basic radio toggle button group">
-                                <input @radio_ascent_status @Model.Radio_Ascents_Status_Success type="radio" class="btn-check" name="radio_ascent" id="radio_ascent_success" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="radio_ascent_success">Ascended</label>
-                                <input @radio_ascent_status @Model.Radio_Ascents_Status_Attempt type="radio" class="btn-check" name="radio_ascent" id="radio_ascent_attempt" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="radio_ascent_attempt">Attempted</label>
-                                <input @radio_ascent_status @Model.Radio_Ascents_Status_Blank type="radio" class="btn-check" name="radio_ascent" id="radio_ascent_blank" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="radio_ascent_blank">Not attempted</label>
-                            </div>
-                        </div>
-
-                        <p>@Model.AscentsAverage ascents per day</p>
-
-                    }
-                    else
-                    {
-                        <p>No ascents logged so far. Be first to log an ascent!</p>
-                    }
-                </div>
+                <partial name="_Section_Ascents" model="@Model.AscentsSectionViewModel"/>
 
                 @* Grade ratings *@
                 <br />
@@ -181,6 +146,6 @@
 
 @section Scripts {
     <script src="/js/commentbox.js"></script>
-    <script src="/js/radioHandling.js"></script>
+    <script src="/js/radioHandler.js"></script>
     <partial name="_ValidationScriptsPartial" />
 }

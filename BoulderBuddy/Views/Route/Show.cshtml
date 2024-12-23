@@ -47,39 +47,7 @@
 
                 @* Grade ratings *@
                 <br />
-                <div class="rounded-3 border p-2">
-                    <h2>Grade rating</h2>
-                    @if (Model.Progress_Grading_Easy > (Model.Progress_Grading_Fair + Model.Progress_Grading_Hard))
-                    {
-                        <p>Rated easy for its grade by @Model.Progress_Grading_Easy% of voters</p>
-                    }
-                    else if (Model.Progress_Grading_Fair > (Model.Progress_Grading_Easy + Model.Progress_Grading_Hard))
-                    {
-                        <p>Rated easy for its grade by @Model.Progress_Grading_Easy% of voters</p>
-                    }
-                    else
-                    {
-                        <p>Graded accurately</p>
-                    }
-                    <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: @Model.Progress_Grading_Easy%;" aria-valuenow="@Model.Progress_Grading_Easy" aria-valuemin="0" aria-valuemax="100"></div>
-                        <div class="progress-bar bg-light" role="progressbar" style="width: @Model.Progress_Grading_Hard%;" aria-valuenow="@Model.Progress_Grading_Hard" aria-valuemin="0" aria-valuemax="100"></div>
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: @Model.Progress_Grading_Fair%;" aria-valuenow="@Model.Progress_Grading_Fair" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <div class="row">
-                        @{
-                            string radio_grade_status = SignInManager.IsSignedIn(User) ? "" : "disabled";
-                        }
-                        <div class="btn-group align-self-center" role="group" aria-label="Basic radio toggle button group">
-                            <input @radio_grade_status type="radio" class="btn-check" name="radio_grade" id="radio_grade_easy" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="radio_grade_easy">Easier</label>
-                            <input @radio_grade_status type="radio" class="btn-check" name="radio_grade" id="radio_grade_fair" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="radio_grade_fair">Fair</label>
-                            <input @radio_grade_status type="radio" class="btn-check" name="radio_grade" id="radio_grade_hard" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="radio_grade_hard">Harder</label>
-                        </div>
-                    </div>
-                </div>
+                <partial name="_Section_Grading" model="@Model.GradingSectionViewModel" />
 
                 @* Badges *@
                 <br />

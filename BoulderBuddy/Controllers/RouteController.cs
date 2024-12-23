@@ -4,6 +4,7 @@ using BoulderBuddy.Models.ViewModels;
 using BoulderBuddy.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
@@ -55,14 +56,38 @@ namespace BoulderBuddy.Controllers
             }
             result.AscentsTotal = routeAscents.Count();
             result.AscentsSuccessful = routeAscents.Where(x => x.Ascent.Success).Count();
-            result.Progress_Ascents_Success = (int)(((float)result.AscentsSuccessful / result.AscentsTotal) * 100);
-            result.Progress_Ascents_Attempt = 100 - result.Progress_Ascents_Success;
+            result.Progress_Success = (int)(((float)result.AscentsSuccessful / result.AscentsTotal) * 100);
+            result.Progress_Attempt = 100 - result.Progress_Success;
             result.AscentData = routeAscents;
 
-            Ascents userAscent = _db.Ascents.Where(x => x.UserId == userData.Id).FirstOrDefault();
-            result.Radio_Ascents_Status_Success = userAscent?.Success == true ? "checked" : "";
-            result.Radio_Ascents_Status_Attempt = userAscent?.Success == false ? "checked" : "";
-            result.Radio_Ascents_Status_Blank = userAscent == null ? "checked" : "";
+            Ascents userAscent = _db.Ascents.Where(x => x.UserId == userData.Id && x.RouteId==route.Id).FirstOrDefault();
+            result.Radio_Status_Success = userAscent?.Success == true ? "checked" : "";
+            result.Radio_Status_Attempt = userAscent?.Success == false ? "checked" : "";
+            result.Radio_Status_Blank = userAscent == null ? "checked" : "";
+
+            return result;
+        }
+
+        private GradingSectionViewModel loadGradingSectionViewModel(Routes route, UserData userData)
+        {
+            GradingSectionViewModel result = new GradingSectionViewModel();
+
+            List<GradeRatings> gradings = (from grading in _db.GradeRatings
+                                                   join user in _db.UserData on grading.UserDataId equals user.Id
+                                                   where grading.RouteId == route.Id
+                                                   select grading).ToList();
+
+            if (gradings.Count() > 0)
+            {
+                result.Progress_Easy = (int)(((float)gradings.Where(x => x.Rating < 0).Count() / gradings.Count()) * 100);
+                result.Progress_Hard = (int)(((float)gradings.Where(x => x.Rating > 0).Count() / gradings.Count()) * 100);
+                result.Progress_Fair = (int)(((float)gradings.Where(x => x.Rating == 0).Count() / gradings.Count()) * 100);
+            }
+
+            GradeRatings userGrading = _db.GradeRatings.Where(x => x.UserDataId == userData.Id && x.RouteId == route.Id).FirstOrDefault();
+            result.Radio_Status_Hard = userGrading?.Rating > 0 ? "checked" : "";
+            result.Radio_Status_Easy = userGrading?.Rating < 0 ? "checked" : "";
+            result.Radio_Status_Fair = userGrading?.Rating == 0 ? "checked" : "";
 
             return result;
         }
@@ -86,28 +111,13 @@ namespace BoulderBuddy.Controllers
                 //Load route ascents
                 AscentsSectionViewModel ascentsSection = loadAscentsSectionViewModel(resultRoute, userData);
 
-                //Calculate grade rating
-                int progressBarEasy = 0;
-                int progressBarHard = 0;
-                int progressBarOk = 0;
+                //Load gradings ascents
+                GradingSectionViewModel gradingSection = loadGradingSectionViewModel(resultRoute, userData);
 
-                List<GradeRatings> gradeRatings = (from gradeRating in _db.GradeRatings
-                                                   join user in _db.UserData on gradeRating.UserDataId equals user.Id
-                                                   where gradeRating.RouteId == resultRoute.Id
-                                                   select gradeRating).ToList();
 
-                if (gradeRatings.Count() > 0)
-                {
-                    progressBarEasy = (int)(((float) gradeRatings.Where(x => x.Rating > 0).Count() / gradeRatings.Count() ) * 100);
-                    progressBarHard = (int)(((float)gradeRatings.Where(x => x.Rating < 0).Count() / gradeRatings.Count()) * 100);
-                    progressBarOk = (int)(((float)gradeRatings.Where(x => x.Rating == 0).Count() / gradeRatings.Count()) * 100);
-                }
-
-                RouteViewModel newModel = new RouteViewModel(resultRoute, routeComments, gradeRatings);
-                newModel.Progress_Grading_Easy = progressBarEasy;
-                newModel.Progress_Grading_Fair = progressBarHard;
-                newModel.Progress_Grading_Hard = progressBarOk;
+                RouteViewModel newModel = new RouteViewModel(resultRoute, routeComments);
                 newModel.AscentsSectionViewModel = ascentsSection;
+                newModel.GradingSectionViewModel = gradingSection;
 
                 return View(newModel);
             }
@@ -121,7 +131,6 @@ namespace BoulderBuddy.Controllers
         public IActionResult MarkAscent(int id, string ascentResult)
         {
             TempData["NotificationRequested"] = "true";
-            
 
             Routes resultRoute = getRouteById(id);
             IdentityUser identityUser = _userManager.GetUserAsync(User).Result!;
@@ -169,13 +178,54 @@ namespace BoulderBuddy.Controllers
         }
 
         [HttpPost]
-        public IActionResult MarkGrading(int id, string value)
+        public IActionResult MarkGrading(int id, string gradingResult)
         {
+            TempData["NotificationRequested"] = "true";
+
+            Routes resultRoute = getRouteById(id);
+            IdentityUser identityUser = _userManager.GetUserAsync(User).Result!;
+            UserData userData = UserUtility.GetUserByNetId(_db, identityUser.Id);
+
             if (_signInManager.IsSignedIn(User))
             {
+                try
+                {
 
+                    GradeRatings grading = _db.GradeRatings.Where(x => x.UserDataId == userData.Id && x.RouteId == id).FirstOrDefault();
+                    if (grading == null && !gradingResult.Equals("fair"))
+                    {
+                        grading = new GradeRatings()
+                        {
+                            RouteId = id,
+                            UserDataId = userData.Id
+                        };
+                    }
+
+                    if (!gradingResult.Equals("fair"))
+                    {
+                        grading.Rating = (short)(gradingResult.Equals("hard") ? 1 : -1);
+                        _db.GradeRatings.Update(grading);
+                        _db.SaveChanges();
+                        TempData["SuccessMessage"] = gradingResult.Equals("hard") ? "Grading marked as harder!" : "Grading marked as easier!";
+
+                    }
+                    else if (gradingResult.Equals("fair") && grading != null)
+                    {
+                        grading.Rating = 0;
+                        _db.GradeRatings.Update(grading);
+                        _db.SaveChanges();
+                        TempData["SuccessMessage"] = "Grading marked as fair!";
+                    }
+                }
+                catch (Exception e)
+                {
+                    TempData["ErrorMessage"] = "Something went wrong. Try again?";
+                }
             }
-            return View();
+
+            GradingSectionViewModel resultViewModel = loadGradingSectionViewModel(resultRoute, userData);
+
+            return PartialView("_Section_Grading", resultViewModel);
         }
         #endregion
 

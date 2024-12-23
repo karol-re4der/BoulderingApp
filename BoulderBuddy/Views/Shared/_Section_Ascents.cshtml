@@ -31,7 +31,6 @@
 <div id="AscentsSection">
     <div class="rounded-3 border p-2">
         <h2>Ascents</h2>
-        @DateTime.Now
         @if (Model.AscentsTotal>0)
         {
             @if (Model.AscentsTotal > 1)
@@ -41,8 +40,8 @@
             <p>Last ascent on @Model.AscentData.First().Ascent.AscentDateTime by @Model.AscentData.First().Ascent.UserId</p>
             <p>@Model.AscentsSuccessful ascents successfull out of @Model.AscentsTotal attempts total</p>
             <div class="progress">
-                <div class="progress-bar bg-success" role="progressbar" style="width: @Model.Progress_Ascents_Success%;" aria-valuenow="@Model.Progress_Ascents_Success" aria-valuemin="0" aria-valuemax="100"></div>
-                <div class="progress-bar bg-light" role="progressbar" style="width: @Model.Progress_Ascents_Attempt%;" aria-valuenow="@Model.Progress_Ascents_Attempt" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-success" role="progressbar" style="width: @Model.Progress_Success%;" aria-valuenow="@Model.Progress_Success" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-light" role="progressbar" style="width: @Model.Progress_Attempt%;" aria-valuenow="@Model.Progress_Attempt" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <form asp-action="MarkAscent" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#AscentsSection" name="form_ascents">
                 @{
@@ -50,13 +49,13 @@
                 }
                 <div class="row">
                     <div class="btn-group align-self-center" role="group" aria-label="Basic radio toggle button group">
-                        <input onclick="markAscent('success')" @radio_ascent_status @Model.Radio_Ascents_Status_Success type="radio" class="btn-check" id="radio_ascent_success" autocomplete="off">
+                        <input oninput="markAscent('success')" @radio_ascent_status @Model.Radio_Status_Success type="radio" class="btn-check" id="radio_ascent_success" autocomplete="off">
                         <label class="btn btn-outline-primary" for="radio_ascent_success">Ascended</label>
-                        <input onclick="markAscent('attempt')"  @radio_ascent_status @Model.Radio_Ascents_Status_Attempt type="radio" class="btn-check" id="radio_ascent_attempt" autocomplete="off">
+                        <input oninput="markAscent('attempt')" @radio_ascent_status @Model.Radio_Status_Attempt type="radio" class="btn-check" id="radio_ascent_attempt" autocomplete="off">
                         <label class="btn btn-outline-primary" for="radio_ascent_attempt">Attempted</label>
-                        <input @radio_ascent_status @Model.Radio_Ascents_Status_Blank type="radio" class="btn-check" id="radio_ascent_blank" autocomplete="off">
-                        <label onclick="markAscent('blank')" class="btn btn-outline-primary" for="radio_ascent_blank">Not attempted</label>
-                        <input hidden name="ascentResult" id="radio_val" autocomplete="off">
+                        <input oninput="markAscent('blank')" @radio_ascent_status @Model.Radio_Status_Blank type="radio" class="btn-check" id="radio_ascent_blank" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="radio_ascent_blank">Not attempted</label>
+                        <input hidden name="ascentResult" id="radio_value_ascent" autocomplete="off">
                         <button hidden type="submit" id="radio_ascents_submit">Don't look :)')</button>
                     </div>
                 </div>

@@ -30,42 +30,40 @@
     }
 }
 
-<div id="GradingSection">
-    <div class="rounded-3 border p-2">
-        <h2>Grade rating</h2>
-        @if (Model.Progress_Easy > (Model.Progress_Fair + Model.Progress_Hard))
-        {
-            <p>Rated easy for its grade by @Model.Progress_Easy% of voters</p>
-        }
-        else if (Model.Progress_Hard > (Model.Progress_Easy + Model.Progress_Fair))
-        {
-            <p>Rated easy for its grade by @Model.Progress_Hard% of voters</p>
-        }
-        else
-        {
-            <p>Graded accurately</p>
-        }
-        <div class="progress">
-            <div class="progress-bar bg-success" role="progressbar" style="width: @Model.Progress_Easy%;" aria-valuenow="@Model.Progress_Easy" aria-valuemin="0" aria-valuemax="100"></div>
-            <div class="progress-bar bg-light" role="progressbar" style="width: @Model.Progress_Fair%;" aria-valuenow="@Model.Progress_Fair" aria-valuemin="0" aria-valuemax="100"></div>
-            <div class="progress-bar bg-danger" role="progressbar" style="width: @Model.Progress_Hard%;" aria-valuenow="@Model.Progress_Hard" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-        <form asp-action="MarkGrading" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#GradingSection" name="form_grading">
-            <div class="row">
-                @{
-                    string radio_grade_status = SignInManager.IsSignedIn(User) ? "" : "disabled";
-                }
-                <div class="btn-group align-self-center" role="group" aria-label="Basic radio toggle button group">
-                    <input oninput="markGrading('easy')" @Model.Radio_Status_Easy @radio_grade_status type="radio" class="btn-check" id="radio_grade_easy" autocomplete="off">
-                    <label class="btn btn-outline-primary" for="radio_grade_easy">Easier</label>
-                    <input oninput="markGrading('fair')" @Model.Radio_Status_Fair @radio_grade_status type="radio" class="btn-check" id="radio_grade_fair" autocomplete="off">
-                    <label class="btn btn-outline-primary" for="radio_grade_fair">Fair</label>
-                    <input oninput="markGrading('hard')" @Model.Radio_Status_Hard @radio_grade_status type="radio" class="btn-check" id="radio_grade_hard" autocomplete="off">
-                    <label class="btn btn-outline-primary" for="radio_grade_hard">Harder</label>
-                    <input hidden name="gradingResult" id="radio_value_grading" autocomplete="off">
-                    <button hidden type="submit" id="radio_grading_submit">Don't look :)')</button>
-                </div>
-            </div>
-        </form>
+<div class="rounded-3 border p-2">
+    <h2>Grade rating</h2>
+    @if (Model.Progress_Easy > (Model.Progress_Fair + Model.Progress_Hard))
+    {
+        <p>Rated easy for its grade by @Model.Progress_Easy% of voters</p>
+    }
+    else if (Model.Progress_Hard > (Model.Progress_Easy + Model.Progress_Fair))
+    {
+        <p>Rated easy for its grade by @Model.Progress_Hard% of voters</p>
+    }
+    else
+    {
+        <p>Graded accurately</p>
+    }
+    <div class="progress">
+        <div class="progress-bar bg-success" role="progressbar" style="width: @Model.Progress_Easy%;" aria-valuenow="@Model.Progress_Easy" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar bg-light" role="progressbar" style="width: @Model.Progress_Fair%;" aria-valuenow="@Model.Progress_Fair" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar bg-danger" role="progressbar" style="width: @Model.Progress_Hard%;" aria-valuenow="@Model.Progress_Hard" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
+    <form asp-action="MarkGrading" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#GradingSection" name="form_grading">
+        <div class="row">
+            @{
+                string radio_grade_status = SignInManager.IsSignedIn(User) ? "" : "disabled";
+            }
+            <div class="btn-group align-self-center" role="group" aria-label="Basic radio toggle button group">
+                <input oninput="markGrading('easy')" @Model.Radio_Status_Easy @radio_grade_status type="radio" class="btn-check" id="radio_grade_easy" autocomplete="off">
+                <label class="btn btn-outline-primary" for="radio_grade_easy">Easier</label>
+                <input oninput="markGrading('fair')" @Model.Radio_Status_Fair @radio_grade_status type="radio" class="btn-check" id="radio_grade_fair" autocomplete="off">
+                <label class="btn btn-outline-primary" for="radio_grade_fair">Fair</label>
+                <input oninput="markGrading('hard')" @Model.Radio_Status_Hard @radio_grade_status type="radio" class="btn-check" id="radio_grade_hard" autocomplete="off">
+                <label class="btn btn-outline-primary" for="radio_grade_hard">Harder</label>
+                <input hidden name="gradingResult" id="radio_value_grading" autocomplete="off">
+                <button hidden type="submit" id="radio_grading_submit">Don't look :)')</button>
+            </div>
+        </div>
+    </form>
 </div>

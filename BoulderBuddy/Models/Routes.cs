@@ -13,5 +13,7 @@ namespace BoulderBuddy.Models
 
         [ForeignKey("Grades")]
         public int GradeId { get; set; }
+        [ForeignKey("Gyms")]
+        public int GymId { get; set; }
     }
 }

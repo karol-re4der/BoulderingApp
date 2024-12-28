@@ -1,9 +1,12 @@
 using BoulderBuddy.Data;
 using BoulderBuddy.Models;
+using BoulderBuddy.Models.Filters;
 using BoulderBuddy.Models.ViewModels;
 using BoulderBuddy.Utility;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Diagnostics;
 using static BoulderBuddy.Utility.ImageUtility;
@@ -24,42 +27,89 @@ namespace BoulderBuddy.Controllers
             _logger = logger;
         }
 
-        public IActionResult Browse(int id = 1)
+        public IActionResult Browse(int page = 1)
         {
-            var testGym = "Mood";
+            BrowseFilters filters = loadFilters();
+            PagingModel paging = loadDefaultPaging();
+            return View(loadRoutesByPage(filters, paging));
+        }
 
-            List < Routes > availableRoutes = (from route in _db.Routes.ToList()
-                                               join grade in _db.Grades.ToList() on route.GradeId equals grade.Id
-                                               join gradingSystem in _db.GradingSystems.ToList() on grade.GradingSystemId equals gradingSystem.Id
-                                               join gym in _db.Gyms.ToList() on gradingSystem.Id equals gym.GradingSystemId
-                                               where gym.Name.Equals(testGym)
-                                               select route).ToList<Routes>();
-
-            availableRoutes.ForEach(x => x.Image = ImageUtility.GetImagePath(_webHostEnviroment, x.Image, ImageType.Preview));
-
-            BrowseViewModel result = new BrowseViewModel(availableRoutes);
-
-            if(result.ColumnsPerPage>0 && result.RowsPerPage > 0)
-            {
-                result.PagesTotal = availableRoutes.Count() / (result.ColumnsPerPage * result.ColumnsPerPage);
-            }
-
-            int perPage = (result.ColumnsPerPage * result.RowsPerPage);
-            result.PagesTotal = (int)MathF.Ceiling((float)availableRoutes.Count() / perPage);
-
-
-            return View(result);
+        public IActionResult LoadRoutes(BrowseFilters filters, int page = 1)
+        {
+            PagingModel paging = loadDefaultPaging();
+            paging.CurrentPage = page;
+            return PartialView("_Browse_RouteGrid", loadRoutesByPage(filters, paging));
         }
 
         public IActionResult Index()
         {
-            return View();
+            return View();  
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        #region Helpers
+        private BrowseFilters loadFilters()
+        {
+            BrowseFilters filters = new BrowseFilters();
+
+            filters.GymsAvailable = (
+                from gym in _db.Gyms select new SelectListItem(gym.Name, gym.Id.ToString())
+                ).ToList();
+            filters.GymsAvailable.Insert(0, new SelectListItem("All Gyms", "null"));
+
+            filters.GradesAvailable = (
+                from grade in _db.Grades select new SelectListItem(grade.Name, grade.Id.ToString())
+                ).ToList();
+            filters.GradesAvailable.Insert(0, new SelectListItem("All Grades", "null"));
+
+            return filters;
+        }
+
+        private PagingModel loadDefaultPaging()
+        {
+            PagingModel result = new PagingModel();
+            result.CurrentPage = 1;
+
+            return result;
+        }
+
+        private BrowseViewModel loadRoutesByPage(BrowseFilters filters, PagingModel paging)
+        {
+            //Load routes
+            List<Routes> availableRoutes = (from route in _db.Routes.ToList()
+                                                //join grade in _db.Grades.ToList() on route.GradeId equals grade.Id
+                                                //join gradingSystem in _db.GradingSystems.ToList() on grade.GradingSystemId equals gradingSystem.Id
+                                                //join gym in _db.Gyms.ToList() on gradingSystem.Id equals gym.GradingSystemId
+                                            where (!filters.GymSelected.Equals("null") ? route.GymId == int.Parse(filters.GymSelected) : true)
+                                            && (!filters.GradeSelected.Equals("null") ? route.GradeId == int.Parse(filters.GradeSelected) : true)
+                                            select route).ToList<Routes>();
+
+            BrowseViewModel result = new BrowseViewModel() { Routes = availableRoutes };
+            result.Filters = filters;
+
+            //Load paging settings if not loaded
+            if (paging == null)
+            {
+                paging = loadDefaultPaging();
+            }
+            int perPage = (paging.ColumnsPerPage * paging.RowsPerPage);
+            paging.PagesTotal = (int)MathF.Ceiling((float)availableRoutes.Count() / perPage);
+            result.PagingModel = paging;
+
+            //Filter out everything except current page
+            result.Routes = result.Routes.Skip(perPage * (result.PagingModel.CurrentPage-1)).Take(perPage).ToList();
+
+            //Prepare previews
+            availableRoutes.ForEach(x => x.Image = ImageUtility.GetImagePath(_webHostEnviroment, x.Image, ImageType.Preview));
+
+
+            return result;
+        }
+        #endregion
     }
 }

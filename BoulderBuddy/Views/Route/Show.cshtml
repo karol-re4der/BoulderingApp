@@ -43,11 +43,15 @@
             <div class="tab-pane fade show active rounded-3 shadow p-2" id="summary" role="tabpanel">
                 
                 @* Ascents *@
-                <partial name="_Section_Ascents" model="@Model.AscentsSectionViewModel"/>
+                <div id="AscentsSection">
+                    <partial name="_Section_Ascents" model="@Model.AscentsSectionViewModel"/>
+                </div>
 
                 @* Grade ratings *@
                 <br />
-                <partial name="_Section_Grading" model="@Model.GradingSectionViewModel" />
+                <div id="GradingSection">
+                    <partial name="_Section_Grading" model="@Model.GradingSectionViewModel" />
+                </div>
 
                 @* Badges *@
                 <br />

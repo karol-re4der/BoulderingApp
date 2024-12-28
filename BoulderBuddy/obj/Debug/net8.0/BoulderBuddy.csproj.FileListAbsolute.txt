@@ -291,3 +291,10 @@ C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy\obj\Debug\net8.0\refint\B
 C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy\obj\Debug\net8.0\BoulderBuddy.pdb
 C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy\obj\Debug\net8.0\BoulderBuddy.genruntimeconfig.cache
 C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy\obj\Debug\net8.0\ref\BoulderBuddy.dll
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy\bin\Debug\net8.0\System.Web.Mvc.dll
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy\bin\Debug\net8.0\System.Web.Razor.dll
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy\bin\Debug\net8.0\System.Web.Helpers.dll
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy\bin\Debug\net8.0\System.Web.WebPages.Deployment.dll
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy\bin\Debug\net8.0\System.Web.WebPages.Razor.dll
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy\bin\Debug\net8.0\System.Web.WebPages.dll
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy\bin\Debug\net8.0\Microsoft.Web.Infrastructure.dll

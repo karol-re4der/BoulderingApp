@@ -6,44 +6,34 @@
     int routeId = 0;
     int.TryParse(Url.ActionContext.RouteData.Values["Id"]?.ToString(), out routeId);
 }
+<div class="row">
+    <div class="col">
+        <form asp-action="LoadRoutes" data-ajax="true" data-ajax-update="#RouteGrid" name="form_routesFilters">
+            <div class="collapse" id="collapseBrowseFilters">
+                <div class="d-inline-flex justify-content-left w-100 p-1 mb-3 rounded-3 border">
 
-<div style="display:grid; grid-template-columns: auto auto auto auto; justify-content: space-evenly;">
+                    @* <label for="Filters.GymSelected" class="form-label mt-4">Gym</label> *@
+                    <select asp-for="Filters.GymSelected" asp-items="Model.Filters.GymsAvailable" onchange="document.getElementById('routeFilteringSubmit').click();" class="form-select m-1 w-auto"></select>
 
-    @foreach (var route in Model.Routes.Skip(Model.ColumnsPerPage * Model.RowsPerPage * (routeId-1)).Take(Model.ColumnsPerPage * Model.RowsPerPage))
-    {
-        <div>
-            <div class="shadow">
-                <a class="nav-link text-light" style="display:inline" asp-area="" asp-controller="Route" asp-action="Show" asp-route-id="@route.Id">
-                    <div class="card bg-secondary mb-3" style="max-width: 20rem;">
-                    <div class="card-header">@route.Description</div>
-                        <div class="card-body">
-                        <h4 class="card-title">@route.Description</h4>
-                            <img src="@route.Image" class="d-block user-select-none" width="216" height="270" aria-label="Placeholder: Image cap" focusable="false" role="img" style="object-fit: cover;">
-                        </div>
-                    </div>
-                </a>
+                    @* <label for="Filters.GradeSelected" class="form-label mt-4">Grade</label> *@
+                    <select asp-for="Filters.GradeSelected" asp-items="Model.Filters.GradesAvailable" onchange="document.getElementById('routeFilteringSubmit').click();" class="form-select m-1 w-auto"></select>
+
+                    <button hidden type="submit" id="routeFilteringSubmit">No looking :)</button>
+                    <button class="btn btn-light align-self-end ms-auto m-1" type="reset" onclick="document.getElementById('routeFilteringSubmit').click();" id="routeFilteringReset">Clear Filters</button>
+                </div>
             </div>
+        </form>
+        <div id="RouteGrid">
+            <partial name="_Browse_RouteGrid" model="@Model" />
         </div>
-    }
- </div>
+    </div>
 
-<div>
-    <ul class="pagination pagination-lg" style="justify-content: center;">
-        @for(int i = 1; i<=Model.PagesTotal; i++)
-        {
-            if (i == routeId)
-            {
-                <li class="page-item active shadow">
-                    <a class="page-link" asp-controller="Home" asp-action="Browse" asp-route-id="@i">@i</a>
-                </li>
-            }
-            else
-            {
-                <li class="page-item shadow">
-                    <a class="page-link" asp-controller="Home" asp-action="Browse" asp-route-id="@i">@i</a>
-                </li>
-            }
-        }
-    </ul>
+    <br />
+
+    <div class="col-1">
+
+        <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBrowseFilters" aria-expanded="false" aria-controls="collapseBrowseFilters">
+            <i class="bi bi-funnel"></i>
+        </button>
+    </div>
 </div>
-

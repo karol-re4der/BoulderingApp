@@ -1,0 +1,42 @@
+﻿@model BrowseViewModel
+
+<div style="display:grid; grid-template-columns: auto auto auto auto; justify-content: space-evenly;">
+
+    @foreach (var route in Model.Routes)
+    {
+        <div>
+            <div class="shadow">
+                <a class="nav-link text-light" style="display:inline" asp-area="" asp-controller="Route" asp-action="Show" asp-route-id="@route.Id">
+                    <div class="card bg-secondary mb-3" style="max-width: 20rem;">
+                        <div class="card-header">@route.Description</div>
+                        <div class="card-body">
+                            <h4 class="card-title">"GYM: @route.GymId"</h4>
+                            <img src="@route.Image" class="d-block user-select-none" width="216" height="270" aria-label="Placeholder: Image cap" focusable="false" role="img" style="object-fit: cover;">
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    }
+</div>
+
+<div>
+    <ul class="pagination pagination-lg" style="justify-content: center;">
+        @for (int i = 1; i <= Model.PagingModel.PagesTotal; i++)
+        {
+            if (i == Model.PagingModel.CurrentPage)
+            {
+                <li class="page-item active shadow">
+                    <a class="page-link" data-ajax="true" data-ajax-update="#RouteGrid" asp-controller="Home" asp-action="LoadRoutes" asp-route-page="@i">@i</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item shadow">
+                    <a class="page-link" data-ajax="true" data-ajax-update="#RouteGrid" asp-controller="Home" asp-action="LoadRoutes" asp-route-page="@i">@i</a>
+                </li>
+            }
+        }
+    </ul>
+</div>
+

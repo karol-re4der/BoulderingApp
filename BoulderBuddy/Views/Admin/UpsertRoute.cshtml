@@ -1,0 +1,114 @@
+﻿@model UpsertRouteViewModel
+
+@if (Model.Route.GradeId==0)
+{
+    <h1>Add Route</h1>
+}
+else
+{
+    <h1>Edit Route</h1>
+}
+
+<div class="card mb-3 rounded-3 shadow p-2 list-group">
+    <form asp-action="UpsertRoute" enctype="multipart/form-data" autocomplete="off">
+        <div class="row">
+            <input hidden asp-for="Route.Id" type="text" class="list-group-item" id="form_id">
+            <input hidden asp-for="Route.Image" type="text" class="list-group-item" id="form_image">
+
+            <div class="col-8">
+                <label asp-for="Route.Description" class="form-label mt-4">Description</label>
+                <span style="display:block;" asp-validation-for="Route.Description" class="text-danger"></span>
+                <input asp-for="Route.Description" type="text" class="list-group-item" id="form_description"> 
+
+                <label asp-for="Route.AddDateTime" class="form-label mt-4">Setting Date</label>
+                <span style="display:block;" asp-validation-for="Route.AddDateTime" class="text-danger"></span>
+                <input asp-for="Route.AddDateTime" type="date" class="list-group-item" id="form_date">
+
+                <label asp-for="Route.Image" class="form-label mt-4">Default file input example</label>
+                <input onchange="refreshPreview(this.files, document.getElementById('form_preview'))" class="form-control" type="file" id="form_preview" name="previewImage">
+
+                <label asp-for="Route.GymId" class="form-label mt-4">Gym</label>
+                <span style="display:block;" asp-validation-for="Route.GradeId" class="text-danger"></span>
+                <select onchange="filterGradesByGym(this.value)" asp-for="Route.GymId" asp-items="Model.GymsAvailable" class="form-select list-group-item" style="" id="form_gym">
+                    <option name="Not selected" value="0"></option>
+                </select>
+
+                <label asp-for="Route.GradeId" class="form-label mt-4">Grade</label>
+                <span style="display:block;" asp-validation-for="Route.GradeId" class="text-danger"></span>
+                <select asp-for="Route.GradeId" asp-items="Model.GradesAvailable" class="form-select list-group-item" id="form_grade">
+                    <option name="Not graded" value="0"></option>
+                </select>
+            </div>
+            <div class="col-4">
+                <img id="form_preview" class="img-thumbnail rounded" style="object-fit: cover;" src="@Url.Action("GetPreview", "Admin", new { previewName = Model.Route.Image })" />
+            </div>
+        </div>
+
+        <div>
+            @if (Model.Route.GradeId==0)
+            {
+                <button class="btn btn-light" type="submit">Add Route</button>
+            }
+            else
+            {
+                <button class="btn btn-light" type="submit">Edit Route</button>
+            }
+            <button class="btn btn-light" type="reset">Clear</button>
+            <a class="btn btn-light" asp-controller="Admin" asp-action="Dashboard">Go Back</a>
+        </div>
+	</form>
+</div>
+
+<script>
+    function refreshPreview(files, preview){
+        if (files.length > 0) {
+            let src = URL.createObjectURL(files[0]);
+            preview.src = src;
+        }
+        else{
+            preview.src = '@Url.Action("GetPreview", "Admin", new { previewName = Model.Route.Image })';
+        }
+    }
+
+    function filterGradesByGym(val) {
+        var arr = @Html.Raw(JsonConvert.SerializeObject(Model.GymGradeTable));
+        var gradesAvailable = [];
+        var fixSelection = false;
+
+        if (!arr) return;
+
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i].Item1 == val) {
+                gradesAvailable.push(arr[i].Item2);
+            }
+        }
+
+        for (var i = 0; i < document.getElementById('form_grade').children.length; i++) {
+            var option = document.getElementById('form_grade').children[i];
+            var gradeId = Number(option.value);
+
+            if (!gradesAvailable.includes(gradeId)) {
+                option.hidden = true;
+                if(option.selected){
+                    option.selected = false;
+                    fixSelection = true;
+                }
+            }
+            else {
+                option.hidden = false;
+            }
+        }
+
+        if(fixSelection){
+            for (var i = 0; i < document.getElementById('form_grade').children.length; i++) {
+                var option = document.getElementById('form_grade').children[i];
+                if(!option.hidden){
+                    option.selected = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    filterGradesByGym('@Model.Route.GymId');
+</script>

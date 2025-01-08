@@ -1,11 +1,5 @@
 ﻿@model RouteViewModel
 
-@* @{
-    int cbCommentsPerPage = 10;
-    int cbPagesLoaded = 1;
-    int cbMaxComments = 20;
-} *@
-
 @using Microsoft.AspNetCore.Identity
 
 @inject SignInManager<IdentityUser> SignInManager
@@ -19,7 +13,7 @@
                 <h5 class="card-title">@Model.Route.Id</h5>
                 <h6 class="card-subtitle text-muted">@Model.Route.Description</h6>
             </div>
-            <img src="@Model.Route.Image" class="d-block user-select-none" aria-label="Placeholder: Image cap" focusable="false" role="img" style="object-fit: cover;">
+            <img src="@Model.Route.Image" class="img-thumbnail m-1 rounded" aria-label="Placeholder: Image cap" focusable="false" role="img" style="object-fit: cover;">
             <div class="card-body">
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
             </div>

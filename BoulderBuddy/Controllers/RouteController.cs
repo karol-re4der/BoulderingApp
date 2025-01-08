@@ -103,7 +103,7 @@ namespace BoulderBuddy.Controllers
                 UserData userData = UserUtility.GetUserByNetId(_db, identityUser.Id);
 
                 //translate image path
-                resultRoute.Image = ImageUtility.GetImagePath(_env, resultRoute.Image, ImageType.Preview);
+                resultRoute.Image = ImageUtility.GetPreviewOrPlaceholder(_env, resultRoute.Image);
 
                 //Load route comments
                 List<CommentsViewModel> routeComments = loadComments(id, 0, 10);

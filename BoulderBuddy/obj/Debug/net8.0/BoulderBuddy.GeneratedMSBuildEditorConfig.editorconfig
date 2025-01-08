@@ -194,6 +194,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/re4der/source/repos/BoulderBuddy/BoulderBuddy/Views/Admin/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/re4der/source/repos/BoulderBuddy/BoulderBuddy/Views/Admin/UpsertRoute.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXBzZXJ0Um91dGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/re4der/source/repos/BoulderBuddy/BoulderBuddy/Views/Home/Browse.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxCcm93c2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

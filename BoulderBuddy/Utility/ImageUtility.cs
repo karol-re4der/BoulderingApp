@@ -1,27 +1,62 @@
-﻿namespace BoulderBuddy.Utility
+﻿using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IO;
+
+
+namespace BoulderBuddy.Utility
 {
     public static class ImageUtility
     {
-        public enum ImageType
-        {
-            Unknown,
-            Preview
-        }
+        public static string PreviewPath = @"\res\route_previews\";
+        public static string PlaceholderPath = @"\res\route_previews\placeholder.jpg";
 
-        public static string GetImagePath(IWebHostEnvironment env, string imageName, ImageType imageType)
+        public static bool RemovePreview(IWebHostEnvironment env, string imageName)
         {
-            string placeholderPath = @"\res\route_previews\placeholder.jpg";
-            string result = "";
-            string path = "";
+            string path = GetFullPath(env, GetPreviewOrPlaceholder(env, imageName));
 
-            if (imageType == ImageType.Preview)
+            if (!Path.Exists(path))
             {
-                path = @"\res\route_previews\";
+                return false;
+            }
+            else if (Path.Equals(path, GetFullPath(env, PlaceholderPath)))
+            {
+                return false;
             }
 
-            result = (!System.IO.File.Exists(Path.Combine(env.WebRootPath, path.Substring(1) + imageName)) ? placeholderPath : path + imageName);
+            System.IO.File.Delete(path);
 
-            return result;
+            return true;
+        }
+
+        public static string GetPreviewOrPlaceholder(IWebHostEnvironment env, string imageName)
+        {
+            string pathExpected = "";
+
+            if (string.IsNullOrWhiteSpace(imageName))
+            {
+                return PlaceholderPath;
+            }
+
+            pathExpected = System.IO.Path.Join(PreviewPath + imageName);
+
+            return (!Path.Exists(GetFullPath(env, pathExpected)) ? PlaceholderPath : pathExpected);
+        }
+
+        public static string CreateNewPreviewPath(IWebHostEnvironment env, IFormFile? previewImage)
+        {
+            if (previewImage == null) return "";
+            if (string.IsNullOrWhiteSpace(previewImage.FileName)) return "";
+
+            string fileName = Guid.NewGuid() + Path.GetExtension(previewImage?.FileName);
+
+            string newPath = System.IO.Path.Join(PreviewPath + fileName);
+
+            return newPath;
+        }
+
+        public static string GetFullPath(IWebHostEnvironment env, string path)
+        {
+            return System.IO.Path.Join(env.WebRootPath, path);
         }
     }
 }

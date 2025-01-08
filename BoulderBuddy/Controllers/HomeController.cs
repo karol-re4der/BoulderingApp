@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using static BoulderBuddy.Utility.ImageUtility;
@@ -43,8 +44,8 @@ namespace BoulderBuddy.Controllers
 
         public IActionResult Index()
         {
-            return View();  
-        }
+            return View();
+		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -105,7 +106,7 @@ namespace BoulderBuddy.Controllers
             result.Routes = result.Routes.Skip(perPage * (result.PagingModel.CurrentPage-1)).Take(perPage).ToList();
 
             //Prepare previews
-            availableRoutes.ForEach(x => x.Image = ImageUtility.GetImagePath(_webHostEnviroment, x.Image, ImageType.Preview));
+            availableRoutes.ForEach(x => x.Image = ImageUtility.GetPreviewOrPlaceholder(_webHostEnviroment, x.Image));
 
 
             return result;

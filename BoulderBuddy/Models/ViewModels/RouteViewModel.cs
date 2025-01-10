@@ -7,5 +7,7 @@
 
         public AscentsSectionViewModel AscentsSectionViewModel { get; set; }
         public GradingSectionViewModel GradingSectionViewModel { get; set; }
+
+        public string ShareCode { get; set; }
     }
 }

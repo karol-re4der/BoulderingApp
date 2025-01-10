@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
+using Net.Codecrete.QrCodeGenerator;
 using System.Collections.Generic;
 using System.Linq;
 using static BoulderBuddy.Utility.ImageUtility;
@@ -93,6 +94,8 @@ namespace BoulderBuddy.Controllers
         }
         #endregion
 
+        
+
         [HttpGet]
         public IActionResult Show(int id)
         {
@@ -118,6 +121,7 @@ namespace BoulderBuddy.Controllers
                 RouteViewModel newModel = new RouteViewModel(resultRoute, routeComments);
                 newModel.AscentsSectionViewModel = ascentsSection;
                 newModel.GradingSectionViewModel = gradingSection;
+                newModel.ShareCode = generateShareCode(id);
 
                 return View(newModel);
             }
@@ -291,6 +295,18 @@ namespace BoulderBuddy.Controllers
             return true;
         }
 
+        #endregion
+
+        #region QR
+        private string generateShareCode(int routeId)
+        {
+            string shareURL = Url.ActionLink("Show", "Route", new { id = routeId });
+
+            var qr = QrCode.EncodeText(shareURL, QrCode.Ecc.Medium);
+            string svg = qr.ToSvgString(4);
+
+            return svg;
+        }
         #endregion
     }
 }

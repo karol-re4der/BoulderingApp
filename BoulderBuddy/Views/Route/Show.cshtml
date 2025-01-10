@@ -10,10 +10,6 @@
         <div class="card mb-3 rounded-3 shadow">
             <h3 style="display:inline;" class="card-header">
                 Boulder preview
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    <a asp-area="" asp-controller="Admin" asp-action="UpsertRoute" asp-route-id="@Model.Route.Id"><i class="bi bi-pencil-square"></i></a>
-                }
             </h3>
             <div class="card-body">
                 <h5 class="card-title">@Model.Route.Id</h5>
@@ -21,7 +17,13 @@
             </div>
             <img src="@Model.Route.Image" class="img-thumbnail m-1 rounded" aria-label="Placeholder: Image cap" focusable="false" role="img" style="object-fit: cover;">
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <div class="row justify-content-around">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <a class="btn btn-light col rounded" asp-area="" asp-controller="Admin" asp-action="UpsertRoute" asp-route-id="@Model.Route.Id"><i class="bi bi-pencil-square"></i></a>
+                    }
+                    <a class="btn btn-light col rounded" onclick="new bootstrap.Modal('#shareCodeModal', {keyboard: false}).show()"><i class="bi bi-send"></i></a>
+                </div>
             </div>
         </div>
     </div>
@@ -111,6 +113,20 @@
             @* ascents tab *@
             <div class="tab-pane fade rounded-3 shadow p-2" id="ascents">
                 <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="shareCodeModal" tabindex="-1" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content rounded">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="shareCodeModalTitle">Share the route!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @Html.Raw(Model.ShareCode)
+                </div>
             </div>
         </div>
     </div>

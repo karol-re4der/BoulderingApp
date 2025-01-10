@@ -96,7 +96,6 @@ namespace BoulderBuddy.Controllers
         {
             if (_signInManager.IsSignedIn(User))
             {
-                TempData["NotificationRequested"] = "true";
                 string newFileName = "";
 
                 try
@@ -121,16 +120,14 @@ namespace BoulderBuddy.Controllers
 
                         _db.Routes.Update(route);
                         _db.SaveChanges();
-
-                        TempData["SuccessMessage"] = "Changes saved!";
                     }
                 }
                 catch (Exception e)
                 {
-                    TempData["ErrorMessage"] = "Something went wrong. Try again?";
+                    return NotFound();
                 }
 
-                return RedirectToAction("Dashboard");
+                return RedirectToAction("Show", "Route", new {id=model.Route.Id});
             }
 
             return NotFound();

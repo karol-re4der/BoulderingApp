@@ -29,3 +29,8 @@ body {
 option:disabled{
     background-color: lightgray;
 }
+
+.routeCover {
+    object-fit: cover;
+    aspect-ratio: 4/5;
+}

@@ -15,7 +15,7 @@
                 <h5 class="card-title">@Model.Route.Id</h5>
                 <h6 class="card-subtitle text-muted">@Model.Route.Description</h6>
             </div>
-            <img src="@Model.Route.Image" class="img-thumbnail m-1 rounded" aria-label="Placeholder: Image cap" focusable="false" role="img" style="object-fit: cover;">
+            <img src="@Model.Route.Image" class="img-thumbnail m-1 rounded routeCover" aria-label="Placeholder: Image cap" focusable="false" role="img">
             <div class="card-body">
                 <div class="row justify-content-around">
                     @if (SignInManager.IsSignedIn(User))

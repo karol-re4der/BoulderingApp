@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace BoulderBuddy.Models.ViewModels
@@ -18,5 +19,8 @@ namespace BoulderBuddy.Models.ViewModels
 
         [ValidateNever]
         public List<Tuple<int, int>> GymGradeTable { get; set; }
+
+        [ValidateNever]
+        public IFormFile PreviewImage { get; set; }
     }
 }

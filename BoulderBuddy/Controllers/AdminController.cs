@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System.IO;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BoulderBuddy.Controllers
 {
@@ -92,7 +94,7 @@ namespace BoulderBuddy.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpsertRoute(UpsertRouteViewModel model, IFormFile? previewImage)
+        public IActionResult UpsertRoute(UpsertRouteViewModel model)
         {
             if (_signInManager.IsSignedIn(User))
             {
@@ -104,22 +106,33 @@ namespace BoulderBuddy.Controllers
                     {
                         Routes route = model.Route;
 
-                        if (previewImage != null)
+                        if (model.PreviewImage != null)
                         {
-                            string targetPath = ImageUtility.GetFullPath(_webHostEnviroment, ImageUtility.CreateNewPreviewPath(_webHostEnviroment, previewImage));
-                            newFileName = Path.GetFileName(targetPath);
-                            using (var fileStream = new FileStream(targetPath, FileMode.Create))
+                            if (verifyPreviewFile(model.PreviewImage))
                             {
-                                previewImage.CopyTo(fileStream);
+                                string targetPath = ImageUtility.GetFullPath(_webHostEnviroment, ImageUtility.CreateNewPreviewPath(_webHostEnviroment, model.PreviewImage));
+                                newFileName = Path.GetFileName(targetPath);
+                                using (var fileStream = new FileStream(targetPath, FileMode.Create))
+                                {
+                                    model.PreviewImage.CopyTo(fileStream);
+                                }
+
+                                ImageUtility.RemovePreview(_webHostEnviroment, route.Image);
+
+                                route.Image = newFileName;
                             }
-
-                            ImageUtility.RemovePreview(_webHostEnviroment, route.Image);
-
-                            route.Image = newFileName;
+                            else
+                            {
+                                return NotFound();
+                            }
                         }
 
                         _db.Routes.Update(route);
                         _db.SaveChanges();
+                    }
+                    else
+                    {
+                        return NotFound();
                     }
                 }
                 catch (Exception e)
@@ -132,5 +145,92 @@ namespace BoulderBuddy.Controllers
 
             return NotFound();
         }
+
+        #region verification
+
+        private bool verifyPreviewFile(IFormFile formFile)
+        {
+            if (!verifyFileExtension(formFile))
+            {
+                return false;
+            }
+            else if (!verifyFileSignature(formFile))
+            {
+                return false;
+            }
+            else if (!verifyFileSize(formFile))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool verifyFileSize(IFormFile formFile)
+        {
+            if(formFile.Length == 0 || formFile.Length > 5 * 1024 * 1024) //5mb max
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool verifyFileExtension(IFormFile formFile)
+        {
+            string[] permittedExtensions = { ".jpg", ".jpeg"};
+
+            var ext = Path.GetExtension(formFile.FileName).ToLowerInvariant();
+
+            if (string.IsNullOrEmpty(ext) || !permittedExtensions.Contains(ext))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool verifyFileSignature(IFormFile formFile)
+        {
+            try
+            {
+                Dictionary<string, List<byte[]>> _fileSignature =
+                new Dictionary<string, List<byte[]>>
+                {
+                    { ".jpeg", new List<byte[]>
+                        {
+                            new byte[] { 0xFF, 0xD8, 0xFF, 0xE0 },
+                            new byte[] { 0xFF, 0xD8, 0xFF, 0xE1 },
+                            new byte[] { 0xFF, 0xD8, 0xFF, 0xE2 },
+                            new byte[] { 0xFF, 0xD8, 0xFF, 0xEE },
+                            new byte[] { 0xFF, 0xD8, 0xFF, 0xDB },
+                        }
+                    },
+                    { ".jpg", new List<byte[]>
+                        {
+                            new byte[] { 0xFF, 0xD8, 0xFF, 0xE0 },
+                            new byte[] { 0xFF, 0xD8, 0xFF, 0xE1 },
+                            new byte[] { 0xFF, 0xD8, 0xFF, 0xE2 },
+                            new byte[] { 0xFF, 0xD8, 0xFF, 0xEE },
+                            new byte[] { 0xFF, 0xD8, 0xFF, 0xDB },
+                        }
+                    }
+                };
+
+                using (var reader = new BinaryReader(formFile.OpenReadStream()))
+                {
+                    var signatures = _fileSignature[Path.GetExtension(formFile.FileName).ToLowerInvariant()];
+                    var headerBytes = reader.ReadBytes(signatures.Max(m => m.Length));
+
+                    return signatures.Any(signature =>
+                        headerBytes.Take(signature.Length).SequenceEqual(signature));
+                }
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+        }
+
+        #endregion
     }
 }

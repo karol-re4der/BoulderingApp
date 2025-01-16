@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace BoulderBuddy.Controllers
+namespace BoulderBuddy.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class AdminController : Controller
     {
 
@@ -36,14 +37,14 @@ namespace BoulderBuddy.Controllers
         [HttpGet]
         public IActionResult GetPreview(string previewName)
         {
-            return File(ImageUtility.GetPreviewOrPlaceholder(_webHostEnviroment , previewName), "image/jpg");
+            return File(ImageUtility.GetPreviewOrPlaceholder(_webHostEnviroment, previewName), "image/jpg");
         }
 
         [HttpGet]
         public IActionResult UpsertRoute(string id)
         {
             if (_signInManager.IsSignedIn(User))
-                {
+            {
                 int routeId = 0;
                 int.TryParse(id, out routeId);
 
@@ -84,7 +85,7 @@ namespace BoulderBuddy.Controllers
 
                 return View(newModel);
             }
-            
+
             return NotFound();
 
         }
@@ -136,7 +137,7 @@ namespace BoulderBuddy.Controllers
                     return NotFound();
                 }
 
-                return RedirectToAction("Show", "Route", new {id=model.Route.Id});
+                return RedirectToAction("Show", "Route", new { id = model.Route.Id });
             }
 
             return NotFound();
@@ -164,7 +165,7 @@ namespace BoulderBuddy.Controllers
 
         private bool verifyFileSize(IFormFile formFile)
         {
-            if(formFile.Length == 0 || formFile.Length > 5 * 1024 * 1024) //5mb max
+            if (formFile.Length == 0 || formFile.Length > 5 * 1024 * 1024) //5mb max
             {
                 return false;
             }
@@ -173,7 +174,7 @@ namespace BoulderBuddy.Controllers
 
         private bool verifyFileExtension(IFormFile formFile)
         {
-            string[] permittedExtensions = { ".jpg", ".jpeg"};
+            string[] permittedExtensions = { ".jpg", ".jpeg" };
 
             var ext = Path.GetExtension(formFile.FileName).ToLowerInvariant();
 
@@ -221,7 +222,7 @@ namespace BoulderBuddy.Controllers
                         headerBytes.Take(signature.Length).SequenceEqual(signature));
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }

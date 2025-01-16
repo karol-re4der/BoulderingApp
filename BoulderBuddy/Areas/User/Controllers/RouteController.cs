@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Net.Codecrete.QrCodeGenerator;
 
-namespace BoulderBuddy.Controllers
+namespace BoulderBuddy.Areas.User.Controllers
 {
+    [Area("User")]
     public class RouteController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -50,11 +51,11 @@ namespace BoulderBuddy.Controllers
             }
             result.AscentsTotal = routeAscents.Count();
             result.AscentsSuccessful = routeAscents.Where(x => x.Ascent.Success).Count();
-            result.Progress_Success = (int)(((float)result.AscentsSuccessful / result.AscentsTotal) * 100);
+            result.Progress_Success = (int)((float)result.AscentsSuccessful / result.AscentsTotal * 100);
             result.Progress_Attempt = 100 - result.Progress_Success;
             result.AscentData = routeAscents;
 
-            Ascents userAscent = _db.Ascents.Where(x => x.UserId == userData.Id && x.RouteId==route.Id).FirstOrDefault();
+            Ascents userAscent = _db.Ascents.Where(x => x.UserId == userData.Id && x.RouteId == route.Id).FirstOrDefault();
             result.Radio_Status_Success = userAscent?.Success == true ? "checked" : "";
             result.Radio_Status_Attempt = userAscent?.Success == false ? "checked" : "";
             result.Radio_Status_Blank = userAscent == null ? "checked" : "";
@@ -67,15 +68,15 @@ namespace BoulderBuddy.Controllers
             GradingSectionViewModel result = new GradingSectionViewModel();
 
             List<GradeRatings> gradings = (from grading in _db.GradeRatings
-                                                   join user in _db.UserData on grading.UserDataId equals user.Id
-                                                   where grading.RouteId == route.Id
-                                                   select grading).ToList();
+                                           join user in _db.UserData on grading.UserDataId equals user.Id
+                                           where grading.RouteId == route.Id
+                                           select grading).ToList();
 
             if (gradings.Count() > 0)
             {
-                result.Progress_Easy = (int)(((float)gradings.Where(x => x.Rating < 0).Count() / gradings.Count()) * 100);
-                result.Progress_Hard = (int)(((float)gradings.Where(x => x.Rating > 0).Count() / gradings.Count()) * 100);
-                result.Progress_Fair = (int)(((float)gradings.Where(x => x.Rating == 0).Count() / gradings.Count()) * 100);
+                result.Progress_Easy = (int)((float)gradings.Where(x => x.Rating < 0).Count() / gradings.Count() * 100);
+                result.Progress_Hard = (int)((float)gradings.Where(x => x.Rating > 0).Count() / gradings.Count() * 100);
+                result.Progress_Fair = (int)((float)gradings.Where(x => x.Rating == 0).Count() / gradings.Count() * 100);
             }
 
             GradeRatings userGrading = _db.GradeRatings.Where(x => x.UserDataId == userData.Id && x.RouteId == route.Id).FirstOrDefault();
@@ -87,7 +88,7 @@ namespace BoulderBuddy.Controllers
         }
         #endregion
 
-        
+
 
         [HttpGet]
         public IActionResult Show(int id)
@@ -171,7 +172,7 @@ namespace BoulderBuddy.Controllers
 
             AscentsSectionViewModel resultViewModel = loadAscentsSectionViewModel(resultRoute, userData);
 
-            return PartialView("_Section_Ascents", resultViewModel);
+            return PartialView("_Show_Ascents", resultViewModel);
         }
 
         [HttpPost]
@@ -222,7 +223,7 @@ namespace BoulderBuddy.Controllers
 
             GradingSectionViewModel resultViewModel = loadGradingSectionViewModel(resultRoute, userData);
 
-            return PartialView("_Section_Grading", resultViewModel);
+            return PartialView("_Show_Grading", resultViewModel);
         }
         #endregion
 
@@ -231,7 +232,7 @@ namespace BoulderBuddy.Controllers
         public IActionResult LoadComments(int id)
         {
             List<CommentsViewModel> comments = loadComments(id, 0, 10);
-            return PartialView("_CommentBox", comments);
+            return PartialView("_Show_CommentBox", comments);
         }
 
         [HttpPost]
@@ -248,18 +249,18 @@ namespace BoulderBuddy.Controllers
 
                 }
             }
-            
+
 
             List<CommentsViewModel> comments = loadComments(id, 0, 10);
-            return PartialView("_CommentBox", comments);
+            return PartialView("_Show_CommentBox", comments);
         }
 
         private List<CommentsViewModel> loadComments(int routeId, int skip, int amount)
         {
             List<CommentsViewModel> routeComments = (from comment in _db.RouteComments
-                                                       join user in _db.UserData on comment.UserDataId equals user.Id
-                                                       where comment.RouteId == routeId
-                                                       orderby comment.CommentDateTime descending
+                                                     join user in _db.UserData on comment.UserDataId equals user.Id
+                                                     where comment.RouteId == routeId
+                                                     orderby comment.CommentDateTime descending
                                                      select new CommentsViewModel(user, comment)).Skip(skip).Take(amount).ToList();
             return routeComments;
         }
@@ -280,11 +281,11 @@ namespace BoulderBuddy.Controllers
                 _db.RouteComments.Add(newComment);
                 _db.SaveChanges();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }
-            
+
             return true;
         }
 

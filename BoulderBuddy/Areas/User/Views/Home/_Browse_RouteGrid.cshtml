@@ -6,7 +6,7 @@
     {
         <div>
             <div class="shadow">
-                <a class="nav-link text-light" style="display:inline" asp-area="" asp-controller="Route" asp-action="Show" asp-route-id="@route.Id">
+                <a class="nav-link text-light" style="display:inline" asp-area="User" asp-controller="Route" asp-action="Show" asp-route-id="@route.Id">
                     <div class="card bg-secondary mb-3" style="max-width: 20rem;">
                         <div class="card-header">@route.Description</div>
                         <div class="card-body">
@@ -27,13 +27,13 @@
             if (i == Model.PagingModel.CurrentPage)
             {
                 <li class="page-item active shadow">
-                    <a class="page-link" data-ajax="true" data-ajax-update="#RouteGrid" asp-controller="Home" asp-action="LoadRoutes" asp-route-page="@i">@i</a>
+                    <a class="page-link" data-ajax="true" data-ajax-update="#RouteGrid" asp-area="User" asp-controller="Home" asp-action="LoadRoutes" asp-route-page="@i">@i</a>
                 </li>
             }
             else
             {
                 <li class="page-item shadow">
-                    <a class="page-link" data-ajax="true" data-ajax-update="#RouteGrid" asp-controller="Home" asp-action="LoadRoutes" asp-route-page="@i">@i</a>
+                    <a class="page-link" data-ajax="true" data-ajax-update="#RouteGrid" asp-area="User" asp-controller="Home" asp-action="LoadRoutes" asp-route-page="@i">@i</a>
                 </li>
             }
         }

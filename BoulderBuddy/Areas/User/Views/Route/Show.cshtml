@@ -20,7 +20,7 @@
                 <div class="row justify-content-around">
                     @if (SignInManager.IsSignedIn(User))
                     {
-                        <a class="btn btn-light col rounded" asp-area="" asp-controller="Admin" asp-action="UpsertRoute" asp-route-id="@Model.Route.Id"><i class="bi bi-pencil-square"></i></a>
+                        <a class="btn btn-light col rounded" asp-area="Admin" asp-controller="Admin" asp-action="UpsertRoute" asp-route-id="@Model.Route.Id"><i class="bi bi-pencil-square"></i></a>
                     }
                     <a class="btn btn-light col rounded" onclick="new bootstrap.Modal('#shareCodeModal', {keyboard: false}).show()"><i class="bi bi-send"></i></a>
                 </div>
@@ -46,13 +46,13 @@
                 
                 @* Ascents *@
                 <div id="AscentsSection">
-                    <partial name="_Section_Ascents" model="@Model.AscentsSectionViewModel"/>
+                    <partial name="_Show_Ascents" model="@Model.AscentsSectionViewModel"/>
                 </div>
 
                 @* Grade ratings *@
                 <br />
                 <div id="GradingSection">
-                    <partial name="_Section_Grading" model="@Model.GradingSectionViewModel" />
+                    <partial name="_Show_Grading" model="@Model.GradingSectionViewModel" />
                 </div>
 
                 @* Badges *@
@@ -101,7 +101,7 @@
                         </div>
                     </form>
                     <div id="CommentBox">
-                        <partial name="_CommentBox" model="@Model.RouteComments">
+                        <partial name="_Show_CommentBox" model="@Model.RouteComments">
                         @* @if (cbPagesLoaded * cbCommentsPerPage < cbMaxComments)
                         {
                             <button type="submit" class="btn btn-light align-self-center" asp-action="LoadComments" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#CommentBox">Load more</button>

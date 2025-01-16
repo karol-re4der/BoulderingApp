@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 
-namespace BoulderBuddy.Controllers
+namespace BoulderBuddy.Areas.User.Controllers
 {
+    [Area("User")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -40,9 +41,9 @@ namespace BoulderBuddy.Controllers
         public IActionResult Index()
         {
             return View();
-		}
+        }
 
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
@@ -83,7 +84,7 @@ namespace BoulderBuddy.Controllers
                                                 //join gym in _db.Gyms.ToList() on gradingSystem.Id equals gym.GradingSystemId
                                             where (!filters.GymSelected.Equals("null") ? route.GymId == int.Parse(filters.GymSelected) : true)
                                             && (!filters.GradeSelected.Equals("null") ? route.GradeId == int.Parse(filters.GradeSelected) : true)
-                                            select route).ToList<Routes>();
+                                            select route).ToList();
 
             BrowseViewModel result = new BrowseViewModel() { Routes = availableRoutes };
             result.Filters = filters;
@@ -93,12 +94,12 @@ namespace BoulderBuddy.Controllers
             {
                 paging = loadDefaultPaging();
             }
-            int perPage = (paging.ColumnsPerPage * paging.RowsPerPage);
+            int perPage = paging.ColumnsPerPage * paging.RowsPerPage;
             paging.PagesTotal = (int)MathF.Ceiling((float)availableRoutes.Count() / perPage);
             result.PagingModel = paging;
 
             //Filter out everything except current page
-            result.Routes = result.Routes.Skip(perPage * (result.PagingModel.CurrentPage-1)).Take(perPage).ToList();
+            result.Routes = result.Routes.Skip(perPage * (result.PagingModel.CurrentPage - 1)).Take(perPage).ToList();
 
             //Prepare previews
             availableRoutes.ForEach(x => x.Image = ImageUtility.GetPreviewOrPlaceholder(_webHostEnviroment, x.Image));

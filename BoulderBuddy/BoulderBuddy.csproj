@@ -24,4 +24,10 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BoulderBuddy.DataAccess\BoulderBuddy.DataAccess.csproj" />
+    <ProjectReference Include="..\BoulderBuddy.Models\BoulderBuddy.Models.csproj" />
+    <ProjectReference Include="..\BoulderBuddy.Utility\BoulderBuddy.Utility.csproj" />
+  </ItemGroup>
+
 </Project>

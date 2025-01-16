@@ -1,0 +1,16 @@
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.DataAccess\obj\Debug\net8.0\BoulderBuddy.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.DataAccess\obj\Debug\net8.0\BoulderBuddy.DataAccess.AssemblyInfoInputs.cache
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.DataAccess\obj\Debug\net8.0\BoulderBuddy.DataAccess.AssemblyInfo.cs
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.DataAccess\obj\Debug\net8.0\BoulderBuddy.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.DataAccess\obj\Debug\net8.0\BoulderBuddy.DataAccess.sourcelink.json
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.DataAccess\obj\Debug\net8.0\BoulderBuddy.DataAccess.csproj.AssemblyReference.cache
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.DataAccess\bin\Debug\net8.0\BoulderBuddy.DataAccess.deps.json
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.DataAccess\bin\Debug\net8.0\BoulderBuddy.DataAccess.dll
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.DataAccess\bin\Debug\net8.0\BoulderBuddy.DataAccess.pdb
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.DataAccess\bin\Debug\net8.0\BoulderBuddy.Models.dll
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.DataAccess\bin\Debug\net8.0\BoulderBuddy.Models.pdb
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.DataAccess\obj\Debug\net8.0\BoulderB.DECD4A7A.Up2Date
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.DataAccess\obj\Debug\net8.0\BoulderBuddy.DataAccess.dll
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.DataAccess\obj\Debug\net8.0\refint\BoulderBuddy.DataAccess.dll
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.DataAccess\obj\Debug\net8.0\BoulderBuddy.DataAccess.pdb
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.DataAccess\obj\Debug\net8.0\ref\BoulderBuddy.DataAccess.dll

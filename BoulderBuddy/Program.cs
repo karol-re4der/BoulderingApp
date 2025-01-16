@@ -1,6 +1,6 @@
-using BoulderBuddy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using BoulderBuddy.DataAccess.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

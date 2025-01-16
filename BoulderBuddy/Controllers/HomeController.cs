@@ -1,16 +1,11 @@
-using BoulderBuddy.Data;
-using BoulderBuddy.Models;
-using BoulderBuddy.Models.Filters;
-using BoulderBuddy.Models.ViewModels;
+using BoulderBuddy.DataAccess.Data;
+using BoulderBuddy.Models.Models;
+using BoulderBuddy.Models.Models.Filters;
+using BoulderBuddy.Models.Models.ViewModels;
 using BoulderBuddy.Utility;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using System;
 using System.Diagnostics;
-using static BoulderBuddy.Utility.ImageUtility;
 
 namespace BoulderBuddy.Controllers
 {

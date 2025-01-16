@@ -1,17 +1,10 @@
-﻿using BoulderBuddy.Data;
-using BoulderBuddy.Models;
-using BoulderBuddy.Models.ViewModels;
+﻿using BoulderBuddy.DataAccess.Data;
+using BoulderBuddy.Models.Models;
+using BoulderBuddy.Models.Models.ViewModels;
 using BoulderBuddy.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.IdentityModel.Tokens;
 using Net.Codecrete.QrCodeGenerator;
-using System.Collections.Generic;
-using System.Linq;
-using static BoulderBuddy.Utility.ImageUtility;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace BoulderBuddy.Controllers
 {

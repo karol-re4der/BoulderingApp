@@ -1,14 +1,10 @@
-﻿using BoulderBuddy.Data;
-using BoulderBuddy.Models;
-using BoulderBuddy.Models.ViewModels;
+﻿using BoulderBuddy.DataAccess.Data;
+using BoulderBuddy.Models.Models;
+using BoulderBuddy.Models.Models.ViewModels;
 using BoulderBuddy.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
-using System.IO;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace BoulderBuddy.Controllers
 {

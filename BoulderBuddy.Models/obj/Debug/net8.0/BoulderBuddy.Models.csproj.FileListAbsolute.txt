@@ -1,0 +1,13 @@
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.Models\bin\Debug\net8.0\BoulderBuddy.Models.deps.json
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.Models\bin\Debug\net8.0\BoulderBuddy.Models.dll
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.Models\bin\Debug\net8.0\BoulderBuddy.Models.pdb
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.Models\obj\Debug\net8.0\BoulderBuddy.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.Models\obj\Debug\net8.0\BoulderBuddy.Models.AssemblyInfoInputs.cache
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.Models\obj\Debug\net8.0\BoulderBuddy.Models.AssemblyInfo.cs
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.Models\obj\Debug\net8.0\BoulderBuddy.Models.csproj.CoreCompileInputs.cache
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.Models\obj\Debug\net8.0\BoulderBuddy.Models.sourcelink.json
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.Models\obj\Debug\net8.0\BoulderBuddy.Models.dll
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.Models\obj\Debug\net8.0\refint\BoulderBuddy.Models.dll
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.Models\obj\Debug\net8.0\BoulderBuddy.Models.pdb
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.Models\obj\Debug\net8.0\ref\BoulderBuddy.Models.dll
+C:\Users\re4der\source\repos\BoulderBuddy\BoulderBuddy.Models\obj\Debug\net8.0\BoulderBuddy.Models.csproj.AssemblyReference.cache

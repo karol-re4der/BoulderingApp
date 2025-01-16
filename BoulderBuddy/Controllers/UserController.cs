@@ -1,6 +1,4 @@
-﻿using BoulderBuddy.Models;
-using BoulderBuddy.Models.ViewModels;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace BoulderBuddy.Controllers
 {

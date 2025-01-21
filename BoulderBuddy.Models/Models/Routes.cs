@@ -27,5 +27,8 @@ namespace BoulderBuddy.Models.Models
         [Required]
         [RegularExpression(@"^[1-9][0-9]*$", ErrorMessage = "No gym selected!")]
         public int GymId { get; set; }
+
+        [ForeignKey("RouteSetters")]
+        public int RouteSetterId { get; set; }
     }
 }

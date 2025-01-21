@@ -6,12 +6,13 @@
     {
         <div>
             <div class="shadow">
-                <a class="nav-link text-light" style="display:inline" asp-area="User" asp-controller="Route" asp-action="Show" asp-route-id="@route.Id">
+                <a class="nav-link text-light" style="display:inline" asp-area="User" asp-controller="Route" asp-action="Show" asp-route-id="@route.Route.Id">
                     <div class="card bg-secondary mb-3" style="max-width: 20rem;">
-                        <div class="card-header">@route.Description</div>
+                        <div class="card-header"> @(route.Gym != null ? route.Gym.Name : "Unknown") </div>
                         <div class="card-body">
-                            <h4 class="card-title">"GYM: @route.GymId"</h4>
-                            <img src="@route.Image" class="img-thumbnail rounded routeCover" width="216" height="270" aria-label="Placeholder: Image cap" focusable="false" role="img">
+                            <p class="card-title">Grade: @(route.Grade != null ? route.Grade.Name : "Unknown")</p>
+                            <p class="card-title">Setter: @(route.RouteSetter!=null?route.RouteSetter.SetterName:"Unknown")</p>
+                            <img src="@route.Route.Image" class="img-thumbnail rounded routeCover" width="216" height="270" aria-label="Placeholder: Image cap" focusable="false" role="img">
                         </div>
                     </div>
                 </a>
@@ -27,16 +28,16 @@
             if (i == Model.PagingModel.CurrentPage)
             {
                 <li class="page-item active shadow">
-                    <a class="page-link" data-ajax="true" data-ajax-update="#RouteGrid" asp-area="User" asp-controller="Home" asp-action="LoadRoutes" asp-route-page="@i">@i</a>
+                    <a class="page-link" data-ajax="true" data-ajax-update="#RouteGrid" asp-area="User" asp-controller="Home" asp-action="LoadRoutesByJson" asp-route-page="@i" asp-route-filtersJSON="@JsonConvert.SerializeObject(Model.Filters)">@i</a>
                 </li>
             }
             else
             {
                 <li class="page-item shadow">
-                    <a class="page-link" data-ajax="true" data-ajax-update="#RouteGrid" asp-area="User" asp-controller="Home" asp-action="LoadRoutes" asp-route-page="@i">@i</a>
+                    <a class="page-link" data-ajax="true" data-ajax-update="#RouteGrid" asp-area="User" asp-controller="Home" asp-action="LoadRoutesByJson" asp-route-page="@i" asp-route-filtersJSON="@JsonConvert.SerializeObject(Model.Filters)">@i</a>
                 </li>
             }
         }
-    </ul>
+    </ul> 
 </div>
 

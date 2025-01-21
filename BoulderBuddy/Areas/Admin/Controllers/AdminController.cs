@@ -41,6 +41,13 @@ namespace BoulderBuddy.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetUserImage(string userImageName)
+        {
+            return File(ImageUtility.GetUserImageOrPlaceholder(_webHostEnviroment, userImageName), "image/jpg");
+        }
+
+
+        [HttpGet]
         public IActionResult UpsertRoute(string id)
         {
             if (_signInManager.IsSignedIn(User))
@@ -84,6 +91,35 @@ namespace BoulderBuddy.Areas.Admin.Controllers
                 };
 
                 return View(newModel);
+            }
+
+            return NotFound();
+
+        }
+
+        [HttpGet]
+        public IActionResult UpsertRoutesetter(string id)
+        {
+            if (_signInManager.IsSignedIn(User))
+            {
+                UpsertRoutesetterViewModel newViewModel = new UpsertRoutesetterViewModel();
+
+                int routeId = -1;
+                if(!int.TryParse(id, out routeId))
+                {
+                    if (routeId == 0)
+                    {
+                        RouteSetters setter = (from setters in _db.RouteSetters where setters.Id == routeId select setters).FirstOrDefault();
+                        if (setter != null)
+                        {
+                            newViewModel.RouteSetter = setter;
+                            return View(newViewModel);
+                        }
+                    }
+                }
+
+                newViewModel.RouteSetter = new RouteSetters();
+                return View(newViewModel);
             }
 
             return NotFound();
@@ -143,7 +179,65 @@ namespace BoulderBuddy.Areas.Admin.Controllers
             return NotFound();
         }
 
+        [HttpPost]
+        public IActionResult UpsertRoutesetter(UpsertRoutesetterViewModel model)
+        {
+            if (_signInManager.IsSignedIn(User))
+            {
+                string newFileName = "";
+
+                try
+                {
+                    if (ModelState.IsValid)
+                    {
+                        RouteSetters setter = model.RouteSetter;
+
+                        if (model.PreviewImage != null)
+                        {
+                            if (verifyPreviewFile(model.PreviewImage))
+                            {
+                                string targetPath = ImageUtility.GetFullPath(_webHostEnviroment, ImageUtility.CreateNewUserImagePath(_webHostEnviroment, model.PreviewImage));
+                                newFileName = Path.GetFileName(targetPath);
+                                using (var fileStream = new FileStream(targetPath, FileMode.Create))
+                                {
+                                    model.PreviewImage.CopyTo(fileStream);
+                                }
+
+                                ImageUtility.RemoveUserImage(_webHostEnviroment, setter.Image);
+
+                                setter.Image = newFileName;
+                            }
+                            else
+                            {
+                                return NotFound();
+                            }
+                        }
+
+                        _db.RouteSetters.Update(setter);
+                        _db.SaveChanges();
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                }
+                catch (Exception e)
+                {
+                    return NotFound();
+                }
+
+                return RedirectToAction("Dashboard", "Admin");
+            }
+
+            return NotFound();
+        }
+
+
         #region verification
+        private bool verifyUserImageFile(IFormFile formFile)
+        {
+            return verifyPreviewFile(formFile);
+        }
 
         private bool verifyPreviewFile(IFormFile formFile)
         {

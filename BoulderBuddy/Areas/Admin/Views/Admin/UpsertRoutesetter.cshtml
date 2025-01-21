@@ -1,0 +1,57 @@
+﻿@model UpsertRoutesetterViewModel
+
+@if (Model.RouteSetter.Id == 0)
+{
+    <h1>Add Routesetter</h1>
+}
+else
+{
+    <h1>Edit Routesetter</h1>
+}
+
+<div class="card mb-3 rounded-3 shadow p-2 list-group">
+    <form asp-action="UpsertRoutesetter" enctype="multipart/form-data" autocomplete="off">
+        <div class="row">
+            <input hidden asp-for="RouteSetter.Id" type="text" class="list-group-item" id="form_id">
+            <input hidden asp-for="RouteSetter.Image" type="text" class="list-group-item" id="form_image">
+
+            <div class="col-8">
+                <label asp-for="RouteSetter.SetterName" class="form-label mt-4">Setter Name</label>
+                <span style="display:block;" asp-validation-for="RouteSetter.SetterName" class="text-danger"></span>
+                <input asp-for="RouteSetter.SetterName" type="text" class="list-group-item" id="form_name">
+
+                <label asp-for="RouteSetter.Image" class="form-label mt-4">User Image</label>
+                <span style="display:block;" asp-validation-for="PreviewImage" class="text-danger"></span>
+                <input asp-for="PreviewImage" onchange="refreshUserImage(this.files, document.getElementById('form_preview'))" class="form-control">
+            </div>
+            <div class="col-4">
+                <img id="form_preview" class="img-thumbnail rounded userImage" src="@Url.Action("GetUserImage", "Admin", new { userImageName = Model.RouteSetter.Image })" />
+            </div>
+        </div>
+
+        <div>
+            @if (Model.RouteSetter.Id == 0)
+            {
+                <button class="btn btn-light" type="submit">Add Routesetter</button>
+            }
+            else
+            {
+                <button class="btn btn-light" type="submit">Edit Routesetter</button>
+            }
+            <button class="btn btn-light" type="reset">Clear</button>
+            <a class="btn btn-light" asp-area="Admin" asp-controller="Admin" asp-action="Dashboard">Go Back</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    function refreshUserImage(files, preview) {
+        if (files.length > 0) {
+            let src = URL.createObjectURL(files[0]);
+            preview.src = src;
+        }
+        else{
+            preview.src = '@Url.Action("GetPreview", "Admin", new { previewName = Model.RouteSetter.Image })';
+        }
+    }
+</script>

@@ -34,3 +34,8 @@ option:disabled{
     object-fit: cover;
     aspect-ratio: 4/5;
 }
+
+.userImage {
+    object-fit: cover;
+    aspect-ratio: 1;
+}

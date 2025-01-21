@@ -12,8 +12,15 @@
                 Boulder preview
             </h3>
             <div class="card-body">
-                <h5 class="card-title">@Model.Route.Id</h5>
-                <h6 class="card-subtitle text-muted">@Model.Route.Description</h6>
+                <h4 class="card-title text-muted">
+                    <span class="text-primary">In</span> @(Model.Gym != null ? Model.Gym.Name : "Unknown")
+                </h4>
+                <h5 class="card-title text-muted">
+                    <span class="text-primary">By</span> @(Model.RouteSetter != null ? Model.RouteSetter.SetterName : "Unknown")
+                </h5>
+                <h5 class="card-title text-muted">
+                    <span class="text-primary">On</span>  @Model.Route.AddDateTime.ToString("dd.MM.yyyy")
+                </h5>
             </div>
             <img src="@Model.Route.Image" class="img-thumbnail m-1 rounded routeCover" aria-label="Placeholder: Image cap" focusable="false" role="img">
             <div class="card-body">

@@ -24,7 +24,7 @@ else
                 <span style="display:block;" asp-validation-for="Route.AddDateTime" class="text-danger"></span>
                 <input asp-for="Route.AddDateTime" type="date" class="list-group-item" id="form_date">
 
-                <label asp-for="Route.Image" class="form-label mt-4">Default file input example</label>
+                <label asp-for="Route.Image" class="form-label mt-4">Route Preview</label>
                 <span style="display:block;" asp-validation-for="PreviewImage" class="text-danger"></span>
                 <input asp-for="PreviewImage" onchange="refreshPreview(this.files, document.getElementById('form_preview'))" class="form-control">
 

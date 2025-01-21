@@ -5,6 +5,7 @@ using BoulderBuddy.Models.Models.ViewModels;
 using BoulderBuddy.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace BoulderBuddy.Areas.User.Controllers
@@ -30,6 +31,13 @@ namespace BoulderBuddy.Areas.User.Controllers
             PagingModel paging = loadDefaultPaging();
             return View(loadRoutesByPage(filters, paging));
         }
+
+        public IActionResult LoadRoutesByJson(string filtersJSON, int page = 1)
+        {
+            BrowseFilters filters = JsonConvert.DeserializeObject<BrowseFilters>(filtersJSON);
+            return LoadRoutes(filters, page);
+        }
+
 
         public IActionResult LoadRoutes(BrowseFilters filters, int page = 1)
         {
@@ -78,13 +86,22 @@ namespace BoulderBuddy.Areas.User.Controllers
         private BrowseViewModel loadRoutesByPage(BrowseFilters filters, PagingModel paging)
         {
             //Load routes
-            List<Routes> availableRoutes = (from route in _db.Routes.ToList()
-                                                //join grade in _db.Grades.ToList() on route.GradeId equals grade.Id
-                                                //join gradingSystem in _db.GradingSystems.ToList() on grade.GradingSystemId equals gradingSystem.Id
-                                                //join gym in _db.Gyms.ToList() on gradingSystem.Id equals gym.GradingSystemId
-                                            where (!filters.GymSelected.Equals("null") ? route.GymId == int.Parse(filters.GymSelected) : true)
-                                            && (!filters.GradeSelected.Equals("null") ? route.GradeId == int.Parse(filters.GradeSelected) : true)
-                                            select route).ToList();
+            //List<RouteViewModel> availableRoutes = (from route in _db.Routes.ToList()
+            //                                    join setter in _db.RouteSetters.ToList() on route.RouteSetterId equals setter.Id
+            //                                    join grade in _db.Grades.ToList() on route.GradeId equals grade.Id
+            //                                    join gym in _db.Gyms.ToList() on route.GymId equals gym.Id
+            //                                where (!filters.GymSelected.Equals("null") ? route.GymId == int.Parse(filters.GymSelected) : true)
+            //                                && (!filters.GradeSelected.Equals("null") ? route.GradeId == int.Parse(filters.GradeSelected) : true)
+            //                                select new RouteViewModel(route, null) { RouteSetter = setter, Grade = grade, Gym = gym }).ToList();
+
+            List<RouteViewModel> availableRoutes = (from route in _db.Routes.ToList()
+                                                    join setter in _db.RouteSetters.ToList() on route.RouteSetterId equals setter.Id into setterGroup
+                                                    join grade in _db.Grades.ToList() on route.GradeId equals grade.Id into gradeGroup
+                                                    join gym in _db.Gyms.ToList() on route.GymId equals gym.Id into gymGroup
+                                                    where (!filters.GymSelected.Equals("null") ? route.GymId == int.Parse(filters.GymSelected) : true)
+                                                    && (!filters.GradeSelected.Equals("null") ? route.GradeId == int.Parse(filters.GradeSelected) : true)
+                                                    select new RouteViewModel(route, null) { RouteSetter = setterGroup.FirstOrDefault(), Grade = gradeGroup.FirstOrDefault(), Gym = gymGroup.FirstOrDefault()
+                                                    }).ToList();
 
             BrowseViewModel result = new BrowseViewModel() { Routes = availableRoutes };
             result.Filters = filters;
@@ -102,7 +119,7 @@ namespace BoulderBuddy.Areas.User.Controllers
             result.Routes = result.Routes.Skip(perPage * (result.PagingModel.CurrentPage - 1)).Take(perPage).ToList();
 
             //Prepare previews
-            availableRoutes.ForEach(x => x.Image = ImageUtility.GetPreviewOrPlaceholder(_webHostEnviroment, x.Image));
+            availableRoutes.ForEach(x => x.Route.Image = ImageUtility.GetPreviewOrPlaceholder(_webHostEnviroment, x.Route.Image));
 
 
             return result;

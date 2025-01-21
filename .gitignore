@@ -1,4 +1,10 @@
 BoulderBuddy/wwwroot/res/
 BoulderBuddy/bin/
 BoulderBuddy/obj/
+BoulderBuddy.DataAccess/bin/
+BoulderBuddy.DataAccess/obj/
+BoulderBuddy.Models/bin/
+BoulderBuddy.Models/obj/
+BoulderBuddy.Utility/bin/
+BoulderBuddy.Utility/obj/
 .vs/

@@ -5,6 +5,10 @@
         public Routes Route { get; set; } = route;
         public List<CommentsViewModel> RouteComments { get; set; } = comments;
 
+        public RouteSetters RouteSetter { get; set; }
+        public Grades Grade { get; set; }
+        public Gyms Gym { get; set; }
+
         public AscentsSectionViewModel AscentsSectionViewModel { get; set; }
         public GradingSectionViewModel GradingSectionViewModel { get; set; }
 

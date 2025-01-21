@@ -30,4 +30,8 @@
     <ProjectReference Include="..\BoulderBuddy.Utility\BoulderBuddy.Utility.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\res\user_images\" />
+  </ItemGroup>
+
 </Project>

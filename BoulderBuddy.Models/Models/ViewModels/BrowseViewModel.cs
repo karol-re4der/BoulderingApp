@@ -16,7 +16,7 @@ namespace BoulderBuddy.Models.Models.ViewModels
         public BrowseFilters Filters { get; set; }
         public Gyms TestFilter { get; set; }
 
-        public List<Routes> Routes { get; set; }
+        public List<RouteViewModel> Routes { get; set; }
 
         public PagingModel PagingModel { get; set; }
         

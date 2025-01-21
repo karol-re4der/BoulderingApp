@@ -111,11 +111,14 @@ namespace BoulderBuddy.Areas.User.Controllers
                 //Load gradings ascents
                 GradingSectionViewModel gradingSection = loadGradingSectionViewModel(resultRoute, userData);
 
-
                 RouteViewModel newModel = new RouteViewModel(resultRoute, routeComments);
                 newModel.AscentsSectionViewModel = ascentsSection;
                 newModel.GradingSectionViewModel = gradingSection;
                 newModel.ShareCode = generateShareCode(id);
+
+                //Fill foreign keys
+                newModel.Gym = _db.Gyms.FirstOrDefault(x => x.Id == resultRoute.GymId);
+                newModel.RouteSetter = _db.RouteSetters.FirstOrDefault(x => x.Id == resultRoute.RouteSetterId);
 
                 return View(newModel);
             }
